@@ -1,0 +1,41 @@
+colormap(gray)
+
+for i = 1:1
+    
+    test = imread( strcat( 'ds_',int2str(i),'.jpg') );
+    test = rgb2gray(test);
+
+    [m, n] = size(test);
+
+    col = 1;
+    
+    white_width = 10;
+    
+    for j = 1:10
+       
+        test(:,col:col+white_width) = 255;%255 is white
+        
+        col = col + floor(n/10);
+    end
+    
+    row = 1;
+    for j = 1:10
+       
+        test(row:+white_width) = 255;%255 is white
+        
+        col = col + floor(n/10);
+    end
+    
+    %pad 3px border with whitespace 
+    %NOTE: if there is real information in this border, it will be lost
+    %whitetemp(1:20,1:3) = 255;
+%    whitetemp(1:3,1:20) = 255;
+ %   whitetemp(17:20,1:20) = 255;
+  %  whitetemp(1:20,17:20) = 255;
+    
+    
+    %imagesc(test(1:m/10,1:n/10))
+
+    imagesc(test)
+
+end
