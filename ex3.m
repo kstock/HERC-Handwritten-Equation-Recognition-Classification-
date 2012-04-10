@@ -1,3 +1,29 @@
+%Modified ml-class program for 155 project
+%regularized logistic regression, one-vs-all classifier
+%takes a long time to train, 50 iterations per class;
+%Elapsed time is 540.475975 seconds; (9 min)
+%
+%OUTPUTS: all_theta, one vs all classifier
+
+
+
+%DEPENDENCIES:
+
+%data_x, data_y existing as .mat files
+%These are the outputs of getDataMat.m
+
+%
+
+%TODO
+%       test different values of lambda
+%       de-hardcode some values
+%
+%At some point need to fully cannabalize this code instead of just being
+%   parasitic; understand and optimize
+
+
+
+
 %% Machine Learning Online Class - Exercise 3 | Part 1: One-vs-all
 
 %  Instructions
@@ -31,6 +57,9 @@ num_labels = 20;          % 10 labels, from 1 to 10
 
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
+load('data_x.mat');
+load('data_y.mat');
+
 
 %load('ex3data1.mat'); % training data stored in arrays X, y
 X = data_x;
@@ -44,7 +73,7 @@ sel = X(rand_indices(1:100), :);
 %displayData(sel);
 
 fprintf('Program paused. Press enter to continue.\n');
-pause;
+%pause;
 
 %% ============ Part 2: Vectorize Logistic Regression ============
 %  In this part of the exercise, you will reuse your logistic regression
@@ -56,8 +85,15 @@ pause;
 
 fprintf('\nTraining One-vs-All Logistic Regression...\n')
 
+%regulaization, test different values!!
 lambda = 0.1;
+
+%time computation
+tic()
+
 [all_theta] = oneVsAll(X, y, num_labels, lambda);
+
+toc()
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;

@@ -1,9 +1,14 @@
 %
 % params: 
-%         data_x: toy dataset matrix of examples
-%         data_y: class values corresponding to data_x examples
-%         all_theta_toy: classifier
+%         data_x: toy dataset matrix of examples //output getDataMat.m
+%         data_y: class values corresponding to data_x examples//output
+%                                                          getDataMat.m
+%         all_theta: classifier //output ex3.m
 
+%TODO: 
+%       cross-validation
+%       vectorize?
+%       
 %number correct
 true_pos = 0;
 
@@ -14,7 +19,7 @@ false_pos = zeros(20);
 % y-axis: false predicted value
 mistakes = zeros(20,20);
 
-
+load('all_theta_toy.mat');
 %pred = zeros(1000,1);
 for i = 1:1000
 
@@ -35,7 +40,7 @@ end
 
 %plotconfusion(data_y,pred)
 
-%true_pos
+true_pos
 
 %mistakes
 

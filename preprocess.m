@@ -1,10 +1,25 @@
 %This loops through the toy dataset and tries to get rid of the
 %bounding boxes
-%currently it gets rid of the first few, then starts to miss parts later
-%due to the scans not being correctly aligned
+%passes the ds_# original scans though oren's removeboder script 
+%commented out code from the first try
+%merge with removeborder?
+
 
 colormap(gray)
 
+for i = 1:10
+    
+    test = imread( strcat( 'ds_',int2str(i),'.jpg') );
+    test = rgb2gray(test);
+    
+    test = removeborder(test);
+      
+    imwrite(test,strcat('oren_',int2str(i),'.jpg'),'jpg');
+    %imagesc(test)
+
+end
+
+%{
 for i = 1:10
     
     test = imread( strcat( 'ds_',int2str(i),'.jpg') );
@@ -36,3 +51,4 @@ for i = 1:10
     %imagesc(test)
 
 end
+%}
