@@ -15,21 +15,28 @@ false_pos = zeros(20);
 mistakes = zeros(20,20);
 
 
+%pred = zeros(1000,1);
 for i = 1:1000
 
    pred = predictOneVsAll(all_theta, data_x(i,:));
 
+   
+   mistakes( data_y(i), pred) = mistakes( data_y(i), pred) + 1;
+
+   
    if pred == data_y(i)
        true_pos = true_pos + 1;
-   else
-       mistakes( data_y(i), pred) = mistakes( data_y(i), pred) + 1;
-   end 
+   end
+   
+  
+    
     
 end
 
+%plotconfusion(data_y,pred)
 
-true_pos
+%true_pos
 
-mistakes
+%mistakes
 
 %fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
