@@ -85,7 +85,7 @@ for file = 1:10
 
     end
     
-    if file <= 5
+    if file < 5
         class = 1;
     else
         class = 11;
