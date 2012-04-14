@@ -36,12 +36,12 @@ acc = zeros(k,1);
 for i = 1:k
 
     if i == 1
-       
-        train_x1 = data_x(101:900,:);
-        train_y1 = data_y(101:900,:);
         
-        test_x1 = data_x([1:100,901:end],:);
-        test_y1 = data_y([1:100,901:end],:);     
+        train_x1 = data_x([101:500,601:end],:);
+        train_y1 = data_y([101:500,601:end],:);
+        
+        test_x1 = data_x([1:100,501:600],:);
+        test_y1 = data_y([1:100,501:600],:);     
         
         %{
         train_x1 = data_x(201:end,:);
@@ -53,30 +53,31 @@ for i = 1:k
 
     elseif i == 2
         
-        train_x1 = data_x([1:200,401:end],:);
-        train_y1 = data_y([1:200 401:end],:);
+        train_x1 = data_x([1:100,201:600,701:end],:);
+        train_y1 = data_y([1:100,201:600,701:end],:);
         
-        test_x1 = data_x([201:400],:);
-        test_y1 = data_y([201:400],:);
+        test_x1 = data_x([101:200,601:700],:);
+        test_y1 = data_y([101:200,601:700],:);
         
     elseif i == 3
-        train_x1 = data_x([1:400,601:end],:);
-        train_y1 = data_y([1:400,601:end],:);
+        train_x1 = data_x([1:200,301:700,801:end],:);
+        train_y1 = data_y([1:200,301:700,801:end],:);
         
-        test_x1 = data_x([401:600],:);
-        test_y1 = data_y(401:600,:);
+        test_x1 = data_x([201:300,701:800],:);
+        test_y1 = data_y([201:300,701:800],:);
+        %
     elseif i == 4
-        train_x1 = data_x([1:600,801:end],:);
-        train_y1 = data_y([1:600,801:end],:);
+        train_x1 = data_x([1:300,401:800,901:end],:);
+        train_y1 = data_y([1:300,401:800,901:end],:);
         
-        test_x1 = data_x(601:800,:);
-        test_y1 = data_y(601:800,:);
+        test_x1 = data_x([301:400,801:900],:);
+        test_y1 = data_y([301:400,801:900],:);
     else
-        train_x1 = data_x([1:800],:);
-        train_y1 = data_y([1:800],:);
+         train_x1 = data_x([1:400,501:900],:);
+        train_y1 = data_y([1:400,501:900],:);
         
-        test_x1 = data_x(801:end,:);
-        test_y1 = data_y(801:end,:);
+        test_x1 = data_x([401:500,901:end],:);
+        test_y1 = data_y([401:500,901:end],:);
     end
     
         all_theta = oneVsAll(train_x1,train_y1,20,.1);
