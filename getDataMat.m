@@ -38,6 +38,7 @@
     class = 1;
     data_row = 1;
 
+    sample_num = 0;
 for file = 1:10
 
     test = imread( strcat('images/dataset_proc/oren_', int2str(file),'.jpg'));
@@ -80,6 +81,8 @@ for file = 1:10
         %the results of this is now plain_pixels_data_x.mat
         %temp2 = reshape(temp,1,r_len*c_len);
 
+        
+
         temp2 = HOG(temp);
         
         data_x(data_row,:) = temp2';
@@ -87,6 +90,9 @@ for file = 1:10
 
         data_row = data_row + 1;
 
+        %UNCOMMENT TO write out one image for every sample
+        %imwrite(temp,strcat(int2str(class),'_',int2str(sample_num),'.jpg'),'jpg');
+        %sample_num = sample_num + 1;
 
         r = r + r_len;
         if r > r_len * 10 %wrap around, new row

@@ -6,7 +6,7 @@ preprocess.m // writes new preprocessed images
 
 removeborder.m //removes border 
 
-
+synth.m // (in progress) synthetic data creation through linear transformations?
 
 HOG.m // Histogram of Oriented Gradients code
 
@@ -44,7 +44,7 @@ oren_#.jpg //pre-processed file created by preprocess, used in getDataMat.m
 
 
 mistakes.mat //confusion matrix of mistakes made by classifier,
-            // true value is x-axis, false is y-axis. 
+            // true value is rows, false is cols. 
             // z-axis is different cross-validation folds
 
 
