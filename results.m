@@ -5,10 +5,8 @@
 %                                                              //getDataMat.m
 
 %TODO: 
-%       cross-validation!
-%           fix indices
+%       increase accuracy!!
 %       vectorize?
-%       confusion matrices?
 %       save thetas?
 %number correct
 true_pos = 0;
@@ -16,9 +14,14 @@ true_pos = 0;
 %false positive count for each class
 false_pos = zeros(20);
 
+
+%holds output of each folds results
+acc_str = '';
+
 % x-axis: true value
 % y-axis: false predicted value
-mistakes = zeros(20,20);
+% z-axis: different cross-validation folds
+mistakes = zeros(20,20,5);
 
 load('data_x.mat');
 load('data_y.mat');
@@ -89,29 +92,21 @@ for i = 1:k
         acc(i) = mean(double(pred == test_y1)) * 100;
         fprintf('\n Validation set %d Accuracy: %f\n', i, acc(i));
         
-        
+        acc_str = strcat(acc_str, ...
+                 sprintf('Validation set %d Accuracy: %f \n', i, acc(i)));        
         %
         %making confusion matrix code
-        %commented out for now, might reincorporate after
-        %cross-validation is fixed
-        %{
-        for i = 1:1000
+        %need to figure out how to save one for each loop
+        %mat of mats??
+        for j = 1:200
 
-           pred = predictOneVsAll(all_theta, test_x1(i,:));
+           pred = predictOneVsAll(all_theta, test_x1(j,:));
 
-
-           mistakes( data_y(i), pred) = mistakes( data_y(i), pred) + 1;
-
-
-           if pred == test_y(i)
-               true_pos = true_pos + 1;
-           end
-
-
+           mistakes( data_y(j), pred, i) = mistakes( data_y(j), pred, i) + 1;
 
         end
 
-                %}
+                
 
         
 end
@@ -119,6 +114,8 @@ end
 
 fprintf('\nCross Validation mean accuracy: %f\n',  mean(acc) );
 
+acc_str = strcat(acc_str, ...
+                 sprintf('\nCross Validation mean accuracy: %f\n',  mean(acc) ));
 
 %true_pos
 

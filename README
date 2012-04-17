@@ -1,16 +1,14 @@
-results.m // does classification, currently reports "Training Set Accuracy: 90.800000"
+results.m // does classification, currently reports Cross Validation mean accuracy: 11.400000
 
-ex3.m // trains all_theta, one-vs-all classifier ~9 min runtime, has lambda param for regularization
-
-getDataMat.m // makes data_x matrix of samples, data_y matrix of corresponding classes
+getDataMat.m // makes data_x matrix of HOG-ified samples, data_y matrix of corresponding classes
 
 preprocess.m // writes new preprocessed images
 
 removeborder.m //removes border 
 
-cs155.m // obsolete stuff
 
 
+HOG.m // Histogram of Oriented Gradients code
 
 lrCostFunction.m // Computes cost and gradient for logistic regression with regularization
 
@@ -33,8 +31,6 @@ IMAGES:
 
 ds_#.jpg // original scans of handwritten dataset
 
-proc_#.jpg //first try to remove bounding box, prob delete soon
-
 oren_#.jpg //pre-processed file created by preprocess, used in getDataMat.m
 
 
@@ -45,10 +41,15 @@ oren_#.jpg //pre-processed file created by preprocess, used in getDataMat.m
 
 mistakes.mat //confusion matrix of mistakes made by classifier,
             // true value is x-axis, false is y-axis. 
+            // z-axis is different cross-validation folds
 
-data_x.mat //saved current versions of the data_x produced by getDataMat.m
+
+data_x.mat //saved current versions of the data_x produced by getDataMat.m (HOG features)
 
 data_y.mat //saved current versions of the data_y produced by getDataMat.m
+
+plain_pixels_data_x //saved version of data_x that wasn't passed through any feature
+                    //extractors. size = 1000x24963
 
 all_theta_toy.mat // this is a saved version of theta for the classifier
 

@@ -2,10 +2,14 @@
 %reads files oren_1..oren_10, creates data_x of character samples
 %                                     data_y of class #
 %
+% data_x is of HOG-ified (histogram of oriented gradients) samples
+%
 %
 %TODO:
+%       try different feature extractors (HOG,SIFT?)
+%       mess with HOG params
 %       fix figure window that pops up!!!
-%       de-hardcode some values
+%       de-hardcode some values (search HARDCODED)
 %       fix class # so class 1 is char one (more prob with pic #ing)
     
     colormap(gray);
@@ -22,7 +26,12 @@
 
     %1000 examples 
     %each with r_len * c_len points
-    data_x = zeros(1000,r_len * c_len);
+    %data_x = zeros(1000,r_len * c_len);
+    
+    
+    %TODO HARDCODED: fix hardcoded 81
+    %there must be settings in the HOG.m file to be tweaked
+    data_x = zeros(1000,81);
     data_y = zeros(1000,1);
 
        
@@ -65,11 +74,15 @@ for file = 1:10
                 temp = test(r - r_len + 1:r,c - c_len + 1:c); 
             end
         end
-
         
-        temp2 = reshape(temp,1,r_len*c_len);
+        
+        %for when we were using plain pixels
+        %the results of this is now plain_pixels_data_x.mat
+        %temp2 = reshape(temp,1,r_len*c_len);
 
-        data_x(data_row,:) = temp2;
+        temp2 = HOG(temp);
+        
+        data_x(data_row,:) = temp2';
         data_y(data_row) = class;
 
         data_row = data_row + 1;
