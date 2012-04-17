@@ -28,6 +28,10 @@ predictOneVsAll.m // Predicts whether the label is 0 or 1 using learned logistic
 IMAGES: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+data/      //each sample as a single image
+           // naming convention: CLASS_SAMPLE#
+           //this will be made more sane later
+    
 
 ds_#.jpg // original scans of handwritten dataset
 
