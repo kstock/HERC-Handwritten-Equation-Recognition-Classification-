@@ -1,3 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+.m files!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 results.m // does classification, currently reports Cross Validation mean accuracy: 11.400000
 
 getDataMat.m // makes data_x matrix of HOG-ified samples, data_y matrix of corresponding classes
@@ -15,8 +19,8 @@ HOG.m // Histogram of Oriented Gradients code
 lrCostFunction.m // Computes cost and gradient for logistic regression with regularization
 
 oneVsAll.m  //trains multiple logistic regression classifiers and returns all
-             //the classifiers in a matrix all_theta, where the i-th row of all_theta 
-             //corresponds to the classifier for label i
+             //the classifiers in a matrix all_theta, where the i-th row of
+             //all_theta corresponds to the classifier for label i.
              // uses fmincg
 
 fmincg.m //crazy minimization function for oneVsAll.m
@@ -27,36 +31,59 @@ predictOneVsAll.m // Predicts whether the label is 0 or 1 using learned logistic
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-IMAGES: 
+IMAGES!: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 data/      //each sample as a single image
            // naming convention: CLASS_SAMPLE#
            //this will be made more sane later
  
+______________________________________________________________________________
+//folder of processed data
+
+dataset_proc/ 
+
+            oren_#.jpg //pre-processed file created by preprocess, 
+                       //used in getDataMat.m
+
+______________________________________________________________________________
+//folder of raw data
+
+dataset_raw/     
+
+              ds_#.jpg // original scans of handwritten dataset
+              sample_10x10grid.png //grid used to make dataset
+
+______________________________________________________________________________
+//folder of misc images
+
+misc/      
+
+     155pipeline.xml  //pipeline diagram
+                      //made with http://www.diagram.ly/
+
+     155pipeline.png  //pipeline diagram at current phase
 
 
-   
-segmenter_output/        //folder for localization/bounding box output pics
+______________________________________________________________________________
+//folder of plots made during project
+
+plots/    
+
+     lambdaVSacc#.jpg  //plot of lambda parameter in results.m
+                       //         vs mean Cross-validation accuracy
+
+______________________________________________________________________________
+//folder for localization/bounding box output pics
+
+segmenter_output/        
     
-                InftyBOX#  //infty dataset example with bounding boxes from segmenter2
+                InftyBOX#  //infty dataset example with bounding boxes from 
+                           //     segmenter2
  
   
-             
-plots/    //folder of plots made during project
-
-     lambdaVSacc#  //plot of lambda parameter in results.m vs mean Cross-validation accuracy
-
-
-
-ds_#.jpg // original scans of handwritten dataset
-
-oren_#.jpg //pre-processed file created by preprocess, used in getDataMat.m
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-.mat
+.mat files!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -65,7 +92,8 @@ mistakes.mat //confusion matrix of mistakes made by classifier,
             // z-axis is different cross-validation folds
 
 
-data_x.mat //saved current versions of the data_x produced by getDataMat.m (HOG features)
+data_x.mat //saved current versions of the data_x produced by getDataMat.m 
+           // (HOG features)
 
 data_y.mat //saved current versions of the data_y produced by getDataMat.m
 
