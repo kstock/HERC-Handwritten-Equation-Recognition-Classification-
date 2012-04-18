@@ -6,6 +6,8 @@ preprocess.m // writes new preprocessed images
 
 removeborder.m //removes border 
 
+segmenter2.m //bounding box stuff
+
 synth.m // (in progress) synthetic data creation through linear transformations?
 
 HOG.m // Histogram of Oriented Gradients code
@@ -31,11 +33,26 @@ IMAGES:
 data/      //each sample as a single image
            // naming convention: CLASS_SAMPLE#
            //this will be made more sane later
+ 
+
+
+   
+segmenter_output/        //folder for localization/bounding box output pics
     
+                InftyBOX#  //infty dataset example with bounding boxes from segmenter2
+ 
+  
+             
+plots/    //folder of plots made during project
+
+     lambdaVSacc#  //plot of lambda parameter in results.m vs mean Cross-validation accuracy
+
+
 
 ds_#.jpg // original scans of handwritten dataset
 
 oren_#.jpg //pre-processed file created by preprocess, used in getDataMat.m
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,6 +71,15 @@ data_y.mat //saved current versions of the data_y produced by getDataMat.m
 
 plain_pixels_data_x //saved version of data_x that wasn't passed through any feature
                     //extractors. size = 1000x24963
+
+
+
+//used to generate plots
+lambda_test_acc_x.mat //vector of lambda values for regularized logistic regression
+                      //    tested in results.m
+
+lambda_test_acc_y.mat //vector of Cross validation mean accuracy for regularized 
+                      //    logistic regression tested in results.m
 
 all_theta_toy.mat // this is a saved version of theta for the classifier
 

@@ -6,33 +6,33 @@
 
 %TODO: 
 %       increase accuracy!!
+%       less clumsy way than acc_str to save output!!
+%       use matlab's cross-validation function
+%       test with Infty data
+%       test with MNIST data?
+%       compare different classification algorithms?
 %       vectorize?
 %       save thetas?
-%number correct
-true_pos = 0;
-
-%false positive count for each class
-false_pos = zeros(20);
 
 
 %holds output of each folds results
 acc_str = '';
 
-% x-axis: true value
-% y-axis: false predicted value
+% ROW: true value
+% COL: false predicted value
 % z-axis: different cross-validation folds
 mistakes = zeros(20,20,5);
 
 load('data_x.mat');
 load('data_y.mat');
 
-%load('all_theta_toy.mat');
-%pred = zeros(1000,1);
-
 k = 5;
 acc = zeros(k,1);
 
 
+%tested different values of lambda, .1 seemed to work best
+%check images/plots/lambdaVSacc#.jpg for plots of lambda vs mean CV acc
+for lambda = .1%[.09,.11,.125]%[.15,.2,.5,.75]%[0,.1,1,10,20]
 
 %naive way to do 5 fold cross-validation
 %need to replace with a better idea!!
@@ -44,15 +44,7 @@ for i = 1:k
         train_y1 = data_y([101:500,601:end],:);
         
         test_x1 = data_x([1:100,501:600],:);
-        test_y1 = data_y([1:100,501:600],:);     
-        
-        %{
-        train_x1 = data_x(201:end,:);
-        train_y1 = data_y(201:end,:);
-        
-        test_x1 = data_x(1:200,:);
-        test_y1 = data_y(1:200,:);  
-     %}
+        test_y1 = data_y([1:100,501:600],:);
 
     elseif i == 2
         
@@ -68,7 +60,7 @@ for i = 1:k
         
         test_x1 = data_x([201:300,701:800],:);
         test_y1 = data_y([201:300,701:800],:);
-        %
+        
     elseif i == 4
         train_x1 = data_x([1:300,401:800,901:end],:);
         train_y1 = data_y([1:300,401:800,901:end],:);
@@ -83,42 +75,29 @@ for i = 1:k
         test_y1 = data_y([401:500,901:end],:);
     end
     
-        all_theta = oneVsAll(train_x1,train_y1,20,.1);
+        %train theta classifier on training data
+        all_theta = oneVsAll(train_x1,train_y1,20,lambda);
 
+        %make predictions
         pred = predictOneVsAll(all_theta, test_x1);
        
-        
-        
+        %confusion matrix
+        mistakes(:,:,i) = confusionmat(test_y1,pred);
+ 
+        %accuracy measure
         acc(i) = mean(double(pred == test_y1)) * 100;
-        fprintf('\n Validation set %d Accuracy: %f\n', i, acc(i));
         
+        %string output 
+        fprintf('\n lambda= %d Validation set %d Accuracy: %f \n', lambda, i, acc(i));
         acc_str = strcat(acc_str, ...
-                 sprintf('Validation set %d Accuracy: %f \n', i, acc(i)));        
-        %
-        %making confusion matrix code
-        %need to figure out how to save one for each loop
-        %mat of mats??
-        for j = 1:200
-
-           pred = predictOneVsAll(all_theta, test_x1(j,:));
-
-           mistakes( data_y(j), pred, i) = mistakes( data_y(j), pred, i) + 1;
-
-        end
-
-                
-
-        
+                 sprintf('lambda= %d Validation set %d Accuracy: %f \n', lambda,i, acc(i)));        
 end
-%plotconfusion(data_y,pred)
 
-fprintf('\nCross Validation mean accuracy: %f\n',  mean(acc) );
+
+
+fprintf('\nlambda=%d Cross Validation mean accuracy: %f \n', lambda, mean(acc) );
 
 acc_str = strcat(acc_str, ...
-                 sprintf('\nCross Validation mean accuracy: %f\n',  mean(acc) ));
+                 sprintf('\nlambda=%d Cross Validation mean accuracy: %f \n',lambda,mean(acc) ));
 
-%true_pos
-
-%mistakes
-
-%fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+end
