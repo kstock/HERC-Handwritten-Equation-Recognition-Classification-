@@ -64,6 +64,7 @@ misc/
 
      155pipeline.png  //pipeline diagram at current phase
 
+     accuracies.txt  // file with accuracies for different lambda values
 
 ______________________________________________________________________________
 //folder of plots made during project

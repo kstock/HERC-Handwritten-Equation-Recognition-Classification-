@@ -1,0 +1,108 @@
+List of Accuracy for different values of lambda on the 
+cross-validated toy training set 
+Lambda = .1 seems to work best.
+
+lambda= 0 Validation set 1 Accuracy: 10.500000
+lambda= 0 Validation set 2 Accuracy: 11.500000
+lambda= 0 Validation set 3 Accuracy: 9.000000
+lambda= 0 Validation set 4 Accuracy: 9.000000
+lambda= 0 Validation set 5 Accuracy: 12.500000
+lambda=0 Cross Validation mean accuracy: 10.500000
+
+lambda= 9.000000e-02 Validation set 1 Accuracy: 11.000000
+lambda= 9.000000e-02 Validation set 2 Accuracy: 14.500000
+lambda= 9.000000e-02 Validation set 3 Accuracy: 8.500000
+lambda= 9.000000e-02 Validation set 4 Accuracy: 9.500000
+lambda= 9.000000e-02 Validation set 5 Accuracy: 12.500000
+lambda=9.000000e-02 Cross Validation mean accuracy: 11.200000
+
+lambda= 1.000000e-01 Validation set 1 Accuracy: 12.000000
+lambda= 1.000000e-01 Validation set 2 Accuracy: 16.000000
+lambda= 1.000000e-01 Validation set 3 Accuracy: 8.000000
+lambda= 1.000000e-01 Validation set 4 Accuracy: 8.500000
+lambda= 1.000000e-01 Validation set 5 Accuracy: 12.500000
+lambda=1.000000e-01 Cross Validation mean accuracy: 11.400000
+
+
+
+lambda= 1.100000e-01 Validation set 1 Accuracy: 10.000000
+lambda= 1.100000e-01 Validation set 2 Accuracy: 15.000000
+lambda= 1.100000e-01 Validation set 3 Accuracy: 7.500000
+lambda= 1.100000e-01 Validation set 4 Accuracy: 8.000000
+lambda= 1.100000e-01 Validation set 5 Accuracy: 12.500000
+lambda=1.100000e-01 Cross Validation mean accuracy: 10.600000
+
+
+lambda= 1.250000e-01 Validation set 1 Accuracy: 11.500000
+lambda= 1.250000e-01 Validation set 2 Accuracy: 15.500000
+lambda= 1.250000e-01 Validation set 3 Accuracy: 8.500000
+lambda= 1.250000e-01 Validation set 4 Accuracy: 7.500000
+lambda= 1.250000e-01 Validation set 5 Accuracy: 13.000000
+lambda=1.250000e-01 Cross Validation mean accuracy: 11.200000
+
+
+
+lambda= 1.500000e-01 Validation set 1 Accuracy: 11.000000
+lambda= 1.500000e-01 Validation set 2 Accuracy: 15.000000
+lambda= 1.500000e-01 Validation set 3 Accuracy: 8.000000
+lambda= 1.500000e-01 Validation set 4 Accuracy: 6.500000
+lambda= 1.500000e-01 Validation set 5 Accuracy: 12.500000
+lambda=1.500000e-01 Cross Validation mean accuracy: 10.600000
+
+
+lambda= 2.000000e-01 Validation set 1 Accuracy: 10.500000
+lambda= 2.000000e-01 Validation set 2 Accuracy: 15.500000
+lambda= 2.000000e-01 Validation set 3 Accuracy: 7.000000
+lambda= 2.000000e-01 Validation set 4 Accuracy: 7.500000
+lambda= 2.000000e-01 Validation set 5 Accuracy: 11.000000
+lambda=2.000000e-01 Cross Validation mean accuracy: 10.300000
+
+
+
+lambda= 5.000000e-01 Validation set 1 Accuracy: 9.000000
+lambda= 5.000000e-01 Validation set 2 Accuracy: 15.500000
+lambda= 5.000000e-01 Validation set 3 Accuracy: 7.500000
+lambda= 5.000000e-01 Validation set 4 Accuracy: 6.500000
+lambda= 5.000000e-01 Validation set 5 Accuracy: 11.000000
+lambda=5.000000e-01 Cross Validation mean accuracy: 9.900000
+
+lambda= 7.500000e-01 Validation set 1 Accuracy: 9.500000
+lambda= 7.500000e-01 Validation set 2 Accuracy: 15.000000
+lambda= 7.500000e-01 Validation set 3 Accuracy: 7.000000
+lambda= 7.500000e-01 Validation set 4 Accuracy: 8.500000
+lambda= 7.500000e-01 Validation set 5 Accuracy: 11.500000
+lambda=7.500000e-01 Cross Validation mean accuracy: 10.300000
+
+
+
+lambda= 1 Validation set 1 Accuracy: 11.000000
+lambda= 1 Validation set 2 Accuracy: 14.500000
+lambda= 1 Validation set 3 Accuracy: 7.500000
+lambda= 1 Validation set 4 Accuracy: 9.000000
+lambda= 1 Validation set 5 Accuracy: 11.500000
+lambda=1 Cross Validation mean accuracy: 10.700000
+
+lambda= 10 Validation set 1 Accuracy: 9.000000
+lambda= 10 Validation set 2 Accuracy: 11.500000
+lambda= 10 Validation set 3 Accuracy: 8.000000
+lambda= 10 Validation set 4 Accuracy: 8.500000
+lambda= 10 Validation set 5 Accuracy: 11.000000
+lambda=10 Cross Validation mean accuracy: 9.600000
+
+
+lambda= 20 Validation set 1 Accuracy: 9.000000
+lambda= 20 Validation set 2 Accuracy: 12.000000
+lambda= 20 Validation set 3 Accuracy: 7.500000
+lambda= 20 Validation set 4 Accuracy: 8.500000
+lambda= 20 Validation set 5 Accuracy: 11.500000
+lambda=20 Cross Validation mean accuracy: 9.700000
+
+
+//WOAH!! This is for the MNIST data from the original ml-class program
+Validation set 1 Accuracy: 96.000000
+Validation set 2 Accuracy: 89.000000
+Validation set 3 Accuracy: 98.000000
+Validation set 4 Accuracy: 97.500000
+Validation set 5 Accuracy: 4.738095  //WTF?
+Cross Validation mean accuracy: 77.047619
+
