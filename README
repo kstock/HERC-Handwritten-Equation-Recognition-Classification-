@@ -4,13 +4,14 @@
 
 results.m // does classification, currently reports Cross Validation mean accuracy: 11.400000
 
-getDataMat.m // makes data_x matrix of HOG-ified samples, data_y matrix of corresponding classes
+getDataMat.m // takes optional arg and returns data_x matrix of HOG-ified samples, 
+             // data_y matrix of corresponding classes
 
 preprocess.m // writes new preprocessed images
 
 removeborder.m //removes border 
 
-segmenter2.m //bounding box stuff
+segmeter2.m //bounding box stuff, returns Character struct of bounding box locations
 
 synth.m // (in progress) synthetic data creation through linear transformations?
 
@@ -54,6 +55,16 @@ dataset_raw/
               ds_#.jpg // original scans of handwritten dataset
               sample_10x10grid.png //grid used to make dataset
 
+
+______________________________________________________________________________
+//folder of logic images
+
+logic/
+
+            contain images of forAll, x, exist symbols
+
+
+
 ______________________________________________________________________________
 //folder of misc images
 
@@ -87,6 +98,9 @@ segmenter_output/
 .mat files!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+hog_theta_cvf2.mat //theta matrix of best accuracy cross-validation fold (fold 2)
+                   //used HOG data
 
 mistakes.mat //confusion matrix of mistakes made by classifier,
             // true value is rows, false is cols. 

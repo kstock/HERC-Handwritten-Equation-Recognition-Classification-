@@ -7,7 +7,7 @@
 %TODO: 
 %       increase accuracy!!
 %       less clumsy way than acc_str to save output!!
-%       use matlab's cross-validation function
+%       use matlab's cross-validation function/relitavize CV
 %       test with Infty data
 %       test with MNIST data?
 %       compare different classification algorithms?
@@ -32,6 +32,7 @@ acc = zeros(k,1);
 
 %tested different values of lambda, .1 seemed to work best
 %check images/plots/lambdaVSacc#.jpg for plots of lambda vs mean CV acc
+tic()
 for lambda = .1%[.09,.11,.125]%[.15,.2,.5,.75]%[0,.1,1,10,20]
 
 %naive way to do 5 fold cross-validation
@@ -78,6 +79,13 @@ for i = 1:k
         %train theta classifier on training data
         all_theta = oneVsAll(train_x1,train_y1,20,lambda);
 
+        %{ 
+        if i == 2
+           hog_theta_cvf2 = all_theta;
+        end
+          %}  
+        
+        
         %make predictions
         pred = predictOneVsAll(all_theta, test_x1);
        
@@ -101,3 +109,5 @@ acc_str = strcat(acc_str, ...
                  sprintf('\nlambda=%d Cross Validation mean accuracy: %f \n',lambda,mean(acc) ));
 
 end
+
+toc()

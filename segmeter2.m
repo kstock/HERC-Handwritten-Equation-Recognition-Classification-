@@ -1,8 +1,18 @@
 %code stolen from:
 %http://stackoverflow.com/questions/6972918/detect-a-rectangle-bound-of-an-
 %character-or-object-in-black-white-or-binary-imag
-%TODO:
 
+%INPUT: 
+%     (optional)string that is the location of an image
+%               if none is provided, 'images/dataset_proc/oren_9.jpg' is
+%               used
+
+%OUTPUT:
+%       Character:  struct array with fields: BoundingBox
+%
+
+%TODO:
+%0) fix name! segmeter2 -> segmenter
 %1)   understand fully how this works
 %       bwlabel:
 %       http://www.mathworks.com/help/toolbox/images/ref/bwlabel.html
@@ -11,15 +21,24 @@
 %       then pad to same size as images for classifier!
 %
 
-%3)   get pics of results, post to blog with explanations
-
 %PROBLEMS:
 %   identifiers extra "characters"
 
+function [Character] = segmeter2(varargin)
 
+%check for input
+nVarargs = length(varargin);
 
-%Read image
-Im = imread('proc_5.jpg');
+if nVarargs == 0
+    %Read this image if no input provided 
+    Im = imread('images/dataset_proc/oren_9.jpg');
+else
+   %if arg provided, read first input  
+%   Im = imread(str(varargin(1)));
+   Im = imread(varargin{1});
+
+end
+
 
 Im_saved = Im; %added by me
 %Im = Im(1:159,:);
@@ -46,8 +65,8 @@ for i=1:length(labels)
     if D.Area > 10
         nrValidDetections = nrValidDetections + 1;
         Character(nrValidDetections).BoundingBox = D.BoundingBox;
-    end
-end
+    end %end if
+end%end for i=1:length(labels) 
 
 
 %Visualize results
@@ -65,4 +84,8 @@ for i=1:nrValidDetections
                           Character(i).BoundingBox(3) ...
                           Character(i).BoundingBox(4)]);
 
-end
+end %end for i=1:nrValidDetections
+
+
+
+end%end function
