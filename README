@@ -1,13 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-.m files!
+codes!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+proto.m  //(in progress, very messy) prototype 
 
 results.m // does classification, currently reports Cross Validation mean accuracy: 11.400000
 
 getDataMat.m // takes optional arg and returns data_x matrix of HOG-ified samples, 
              // data_y matrix of corresponding classes
 
-preprocess.m // writes new preprocessed images
+preprocess.m // writes new preprocessed images for all images in a folder
 
 removeborder.m //removes border 
 
@@ -16,6 +18,10 @@ segmeter2.m //bounding box stuff, returns Character struct of bounding box locat
 extract.m //extracts character from bounding box from segmenter2, turns into matrix
 
 parse.py //parses a matrix into LaTeX, outputs to .tex file
+
+getClass.m //returns the class of a sample given a filename
+
+
 
 synth.m // (in progress) synthetic data creation through linear transformations?
 
@@ -59,15 +65,31 @@ dataset_raw/
               ds_#.jpg // original scans of handwritten dataset
               sample_10x10grid.png //grid used to make dataset
 
+______________________________________________________________________________
+//folder of output of extracted
+
+extracted/     
+
+              #.jpg 
+
+        __________________________
+        formula1/
+                extracted formula test samples
+
+        __________________________
+        formula1Filtered/
+                extracted formula test samples,pruned to be only correct ones
+
 
 ______________________________________________________________________________
 //folder of logic images
 
 logic/
 
-            contain images of forAll, x, exist symbols, some formula# for prototype 
-            
-
+        images of logic symbols
+        __________________________
+        formula/
+                some formula test samples
 
 ______________________________________________________________________________
 //folder of misc images
@@ -129,4 +151,22 @@ lambda_test_acc_y.mat //vector of Cross validation mean accuracy for regularized
                       //    logistic regression tested in results.m
 
 all_theta_toy.mat // this is a saved version of theta for the classifier
+
+logic_theta5class.mat //theta for 5 classes:
+                      //forAll,exist,x,y,R
+
+logic_x             // HOG data for logic symbols
+logic_y             // class values for logic symbols
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+need to sort after changing a lot of folders!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//output of parse.py
+test.tex
+
+//made from test.tex
+test.pdf
+test1.pdf
 

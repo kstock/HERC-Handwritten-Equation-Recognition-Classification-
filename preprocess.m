@@ -1,54 +1,36 @@
-%This loops through the toy dataset and tries to get rid of the
-%bounding boxes
-%passes the ds_# original scans though oren's removeboder script 
-%commented out code from the first try
-%merge with removeborder?
+%INPUT: type string: 'directory/string/
+
+%OUTPUT: nothing, fake return 1
+
+%Gets all *.ext in a folder, runs removeborder on them then overwrites
+%them.
+%
+function [ret] = preprocess(directory)
+%directory = 'images/logic/';
+
 
 
 colormap(gray)
 
-for i = 1:10
+files = dir( strcat(directory,'*.jpg'));
+
+for i = 1:length(files)
     
-    test = imread( strcat( 'ds_',int2str(i),'.jpg') );
-    test = rgb2gray(test);
+    name = files(i).name;
+    
+    test = imread( strcat(directory,name) );
+    
+    %if rgb, make gray
+    if length(size(test)) == 3
+        test = rgb2gray(test);
+    end
     
     test = removeborder(test);
       
-    imwrite(test,strcat('oren_',int2str(i),'.jpg'),'jpg');
+    imwrite(test,strcat(directory,name),'jpg');
     %imagesc(test)
 
 end
+ret = 1;% :( stupid, this is only a void function needs no return really
 
-%{
-for i = 1:10
-    
-    test = imread( strcat( 'ds_',int2str(i),'.jpg') );
-    test = rgb2gray(test);
-
-   
-    col = 1;
-    
-    white_width = 15;
-    
-    for j = 1:10
-       
-        test(:,col:col+white_width) = 255;%255 is white
-        
-        col = col + floor(n/10);
-    end
-    
-    row = 1;
-    for j = 1:10
-       
-        test(row:row+white_width,:) = 255;%255 is white
-        
-        row = row + floor(m/10);
-    end
-    
-    
-    size(test)
-    imwrite(test,strcat('proc_',int2str(i),'.jpg'),'jpg');
-    %imagesc(test)
-
-end
-%}
+end%function

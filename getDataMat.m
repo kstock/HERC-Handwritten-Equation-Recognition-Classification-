@@ -7,10 +7,16 @@
 %                                 data_y of class #
 % data_x is of HOG-ified (histogram of oriented gradients) samples
 %
-%
+
+
+
 %TODO:
+%       fix function call stuff
+%       make sure kyle didn't fuck it up -kyle
+%       I think 2 arg was just a big mistake, not sure
+%           what does anymore, was supposed to do
+%           some of the stuff in proto.m
 %       try different feature extractors (HOG,SIFT?)
-%       fix data_y creation ?with extra params?
 %       mess with HOG params
 %       fix figure window that pops up!!!
 %       de-hardcode some values (search HARDCODED)
@@ -25,8 +31,8 @@ function [data_x data_y] = getDataMat(varargin)
     
     %TODO HARDCODED: fix hardcoded 81
     %there must be settings in the HOG.m file to be tweaked
-    data_x = zeros(1000,81);
-    data_y = zeros(1000,1);
+    %data_x = zeros(1000,81);
+    %data_y = zeros(1000,1);
 
 
     %check for input
@@ -34,11 +40,15 @@ function [data_x data_y] = getDataMat(varargin)
 
     if nVarargs == 0
         %Read this image if no input provided 
-        test = imread( 'images/dataset_proc/oren_1.jpg' );
+        test = imread( 'images/dataset_proc/oren_9.jpg');
         num_files = 10;
+    elseif nVarargs == 2%TODO FIX no make sense
+        test = imread(varargin{1});
+        num_files = varargin{2};
+        data_x = zeros(varargin{2},81);
+        data_y = zeros(varargin{2},1);
     else
        %if arg provided, read first input  
-        %test = imread(str(varargin(1)));
         test = imread(varargin{1});
         num_files = 1;
         data_x = zeros(100,81);
@@ -63,6 +73,14 @@ function [data_x data_y] = getDataMat(varargin)
 %    sample_num = 0;
 for file = 1:num_files
 
+    if nVarargs ~= 0
+       %class =  getClass( regexp(varargin{1},'/(.[-/]*)_[0-9]*.jpg','match') );
+       name = regexp(varargin{1},'([^/]*)_','match')';%rm ; for DEBUG 
+       if ~isempty(name)
+          name = name{1}(1:end-1);
+       end
+       class =  getClass( name);
+    end
     
     %no arg, then grab all these files,else already set
     if nVarargs == 0
@@ -125,17 +143,23 @@ for file = 1:num_files
         if r > r_len * 10 %wrap around, new row
             r = r_len;
             c = c + c_len;
-            class = class + 1;
+            
+            if nVarargs == 0 %for script functionality...
+                class = class + 1;
+            end
         end
-
 
     end
     
-    if file < 5
-        class = 1;
-    else
-        class = 11;
+    if nVarargs == 0 %for script functionality...
+
+        if file < 5
+            class = 1;
+        else
+            class = 11;
+        end
     end
+    
     
 
     

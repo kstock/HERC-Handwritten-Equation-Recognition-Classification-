@@ -1,6 +1,11 @@
 import scipy,numpy
 from scipy import io
 
+# reads in a .mat, 
+# currectly does a linear substitution parse
+# more to come!!
+# writes a .tex file!
+
 #decoding the code!!
 #1: \\forall
 #2  \\exists
@@ -20,23 +25,23 @@ from scipy import io
 #16 F
 #17 R
 code = [
-        '\\forall ',
-        '\\exists',
-        '\\neg',
-        '\\left(',
-        '\\right)',
-        'x',
-        'y',
-        'z',
-        '\\neq',
-        '\\in',
-        '\\wedge',
-        '\\vee',
-        '\\rightarrow',
-        '\\leftrightarrow',
-        '\\subset',
-        'F',
-        'R',
+        ' \\forall ',
+        ' \\exists',
+        ' \\neg',
+        ' \\left(',
+        ' \\right)',
+        ' x',
+        ' y',
+        ' z',
+        ' \\neq',
+        ' \\in',
+        ' \\wedge',
+        ' \\vee',
+        ' \\rightarrow',
+        ' \\leftrightarrow',
+        ' \\subset',
+        ' F',
+        ' R',
        ]
 
 
@@ -51,13 +56,13 @@ f.write(startDoc)
 
 
 #returns dict with key as matrix name, matrix as val
-labels = scipy.io.loadmat('parse.mat')
-mat = labels['parse'][0]
-
+labels = scipy.io.loadmat('parse2.mat')
+mat = labels['pred'][0]
+print mat
 #mat = range(1,17)
 for symbol in mat:
   f.write(code[symbol])
-  #print code[symbol]
+  print code[symbol]
 
 
 f.write(endDoc)
