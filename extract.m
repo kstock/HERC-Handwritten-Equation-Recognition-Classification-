@@ -13,10 +13,12 @@
 %Im = imread('images/dataset_proc/oren_9.jpg');
 
 %read formula1,turn to grayscale, save over
+%x = imread('images/logic/formula1.jpg');
+%x = rgb2gray(x);
+%imwrite(x,sting,'jpg');
+
+
 sting = 'images/logic/formula1.jpg';
-x = imread('images/logic/formula1.jpg');
-x = rgb2gray(x);
-imwrite(x,sting,'jpg');
 
 Character = segmeter2(sting);
 Im = imread(sting);
