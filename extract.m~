@@ -9,21 +9,11 @@
 %   deal with case where caracter is greater than the bounding box
 %
 
-%Character = segmeter2('images/dataset_proc/oren_9.jpg');
-%Im = imread('images/dataset_proc/oren_9.jpg');
+Character = segmeter2('images/dataset_proc/oren_9.jpg');
+Im = imread('images/dataset_proc/oren_9.jpg');
 
-%read formula1,turn to grayscale, save over
-sting = 'images/logic/formula1.jpg';
-x = imread('images/logic/formula1.jpg');
-x = rgb2gray(x);
-imwrite(x,sting,'jpg');
-
-Character = segmeter2(sting);
-Im = imread(sting);
-
-
-for l = 1:103
-someBox = Character(l).BoundingBox();
+for l = 1:
+someBox = Character(20).BoundingBox();
 %http://www.mathworks.com/help/toolbox/images/ref/regionprops.html#bqkf8hf
 
 
@@ -49,22 +39,17 @@ for i = 1:x
     end
 end
 %x and y centroid coordinates relative to the bounding box
-if(count > 0)
-x = floor(avg(1)/count)
-y = floor(avg(1)/count)
-else
-    x = 1;
-    y = 1;
-end
+x = floor(avg(1)/count);
+y = floor(avg(1)/count);
 
 %uncomment this block to test centroid coordinate
-
+%{
 imshow(I)
 hold on
 plot(x,y,'b*');
 hold off
 pause
-
+%}
 
 %there may be a problem with this centroid...
 %either way the rest of this code should work
@@ -76,42 +61,12 @@ s = imread('images/data/1_0.jpg');
 %center of box is x,y
 %top left corner of box is x-(a/2), y-(b/2) relative to the bounding box
 
-top_x = floor(x-(a/2))+box(1)
-top_y = floor(y-(b/2))+box(2)
-
-[s1 s2] = size(Im);
-if(top_x < 1)
-    top_x = 1;
-    'error1'
-end
-
-if (top_x + a > s2)
-    top_x = s2-a;
-    'error2'
-end
-
-if(top_y < 1)
-    top_y = 1;
-    'error3'
-end
-
-if (top_y + b > s1)
-    top_y = s1-b;
-    'error4'
-end
-
-'final check'
-top_y
-top_y+b
-top_x
-top_x+b
-
-I2 = Im(top_y:top_y+b, top_x:top_x+a);
-
+top_x = floor(x-(a/2))+box(1);
+top_y = floor(y-(b/2))+box(2);
+I2 = Im(  top_y:top_y+b , top_x:top_x+a );
 
 %imshow(I2)
 
 %output the new image
-output_name = [ num2str(l) '.jpg'];
+output_name = 
 imwrite(I2, output_name ,'JPEG'); %change this to output to a subfolder
-end
