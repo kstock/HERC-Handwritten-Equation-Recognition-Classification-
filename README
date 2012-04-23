@@ -13,6 +13,10 @@ removeborder.m //removes border
 
 segmeter2.m //bounding box stuff, returns Character struct of bounding box locations
 
+extract.m //extracts character from bounding box from segmenter2, turns into matrix
+
+parse.py //parses a matrix into LaTeX, outputs to .tex file
+
 synth.m // (in progress) synthetic data creation through linear transformations?
 
 HOG.m // Histogram of Oriented Gradients code
@@ -115,7 +119,7 @@ data_y.mat //saved current versions of the data_y produced by getDataMat.m
 plain_pixels_data_x //saved version of data_x that wasn't passed through any feature
                     //extractors. size = 1000x24963
 
-
+parse.mat   //toy matrix for testing parse.py
 
 //used to generate plots
 lambda_test_acc_x.mat //vector of lambda values for regularized logistic regression
