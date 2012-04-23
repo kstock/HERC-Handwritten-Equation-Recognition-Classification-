@@ -5,7 +5,7 @@
 
 %TODO
 %   determine centroid NOTE: possible error in centroid calculation
-%   output image
+%   output image into subfolder
 %   deal with case where caracter is greater than the bounding box
 %
 
@@ -19,12 +19,12 @@
 
 
 sting = 'images/logic/formula1.jpg';
-
 Character = segmeter2(sting);
 Im = imread(sting);
 
 
-for l = 1:103
+for l = 1:size(Character,2)
+    
 someBox = Character(l).BoundingBox();
 %http://www.mathworks.com/help/toolbox/images/ref/regionprops.html#bqkf8hf
 
@@ -33,8 +33,23 @@ box = floor(someBox); %??Iono why bounding box has non-integer fields
 
 %imagesc( Im(238:238+35,842:842+62)) %character(20) from oren_9
 %imagesc( Im( box(1):box(1)+box(3),box(2):box(2)+box(4)))
-I = Im( box(1):box(1)+box(3),box(2):box(2)+box(4));
-%imshow(I)
+b1 = box(1);
+b2 = box(1)+box(3);
+b3 = box(2);
+b4 = box(2)+box(4);
+if(b1 < 1)
+    b1 = 1
+end
+if(b2 > size(Im,1))
+    b2 = size(Im,1);
+end
+if(b3 < 1)
+    b3 = 1;
+end
+if(b4 > size(Im,2))
+    b4 = size(Im,2);
+end
+I = Im( b1:b2, b3:b4);
 
 %find the centroid of I
 
@@ -60,13 +75,13 @@ else
 end
 
 %uncomment this block to test centroid coordinate
-
+%{
 imshow(I)
 hold on
 plot(x,y,'b*');
 hold off
 pause
-
+%}
 
 %there may be a problem with this centroid...
 %either way the rest of this code should work
