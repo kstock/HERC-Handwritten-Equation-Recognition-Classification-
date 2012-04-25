@@ -30,7 +30,7 @@ function [ class ] = getClass( exp )
 exp;
 %if regex didn't match!
 if length(exp) == 0
-    exp = 0;
+    exp = 0
 end
 
 

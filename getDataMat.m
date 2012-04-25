@@ -21,9 +21,40 @@
 %       fix figure window that pops up!!!
 %       de-hardcode some values (search HARDCODED)
 %       fix class # so class 1 is char one (more prob with pic #ing)
+
+
 function [data_x data_y] = getDataMat(varargin)
 
+    %check for input
+    nVarargs = length(varargin);
+    if nVarargs == 0
+        %Read this image if no input provided 
+        test = imread( 'images/dataset_proc/oren_9.jpg');%read to get size for loop
+        num_files = 10;%default for toyset 1
+        data_x = zeros(1000,81);%HARDCODED
+        data_y = zeros(1000,1);
+    elseif strcmp(varargin{1},'directory')%if arg provided, assumes correct input in arg2:/
+        jpg_list = dir( strcat(varargin{2},'*.jpg') );%get all jpgs!!
+        filenames = cell(1,nVarargs-1);
+        for i = 1:length(jpg_list)%make cell array of img paths
+            filenames{i} = strcat(varargin{2},jpg_list(i).name);
+        end
+        test = imread(filenames{1});%read to get size for loop
+        num_files = length(filenames);%how many times to loop!
+        data_x = zeros(num_files * 100,81);%HARDCODED
+        data_y = zeros(num_files * 100,1);
+    else %not directory, just get all the path args
+        filenames = cell(1,nVarargs);
+        for i = 1:length(filenames)%make cell array of provided img paths
+            filenames{i} = varargin{i};
+        end
+        test = imread(filenames{1});%read to get size for loop
+        num_files = length(filenames);%how many times to loop!
+        data_x = zeros(num_files * 100,81);%HARDCODED
+        data_y = zeros(num_files * 100,1);        
+    end
 
+    
     %1000 examples 
     %each with r_len * c_len points
     %data_x = zeros(1000,r_len * c_len);
@@ -34,27 +65,7 @@ function [data_x data_y] = getDataMat(varargin)
     %data_x = zeros(1000,81);
     %data_y = zeros(1000,1);
 
-
-    %check for input
-    nVarargs = length(varargin);
-
-    if nVarargs == 0
-        %Read this image if no input provided 
-        test = imread( 'images/dataset_proc/oren_9.jpg');
-        num_files = 10;
-    elseif nVarargs == 2%TODO FIX no make sense
-        test = imread(varargin{1});
-        num_files = varargin{2};
-        data_x = zeros(varargin{2},81);
-        data_y = zeros(varargin{2},1);
-    else
-       %if arg provided, read first input  
-        test = imread(varargin{1});
-        num_files = 1;
-        data_x = zeros(100,81);
-        data_y = zeros(100,1);
-    end
-
+    
 
     colormap(gray);
     
@@ -73,17 +84,14 @@ function [data_x data_y] = getDataMat(varargin)
 %    sample_num = 0;
 for file = 1:num_files
 
+    %one arg provided then grab class name from end of file for getClass switch:
+    %EX: 'images/logic/exist_1.jpg' -> 'exist'
     if nVarargs ~= 0
-       %class =  getClass( regexp(varargin{1},'/(.[-/]*)_[0-9]*.jpg','match') );
-       name = regexp(varargin{1},'([^/]*)_','match')';%rm ; for DEBUG 
-       if ~isempty(name)
-          name = name{1}(1:end-1);
-       end
-       class =  getClass( name);
-    end
-    
-    %no arg, then grab all these files,else already set
-    if nVarargs == 0
+       name = regexp(filenames{file},'([^/]*)_','tokens');%returns cell of (captured) 
+       class =  getClass( char(name{1}));%convert cell array{1} -> string
+       
+    %no arg, then grab this default value from prehistoric script times
+    else
         test = imread( strcat('images/dataset_proc/oren_', int2str(file),'.jpg'));
     end
     
