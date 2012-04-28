@@ -59,7 +59,7 @@ switch exp
     case 'z'
         class = 7;
     
-    case 'neg'
+    case 'ne'
         class = 8;
             
     case 'elem'
