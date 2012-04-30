@@ -2,6 +2,9 @@
 
 %INPUT: array of bounding box structs
 %OUTPUT: correct size matrices for each bounding box to feed to classifier
+%centeredBox is a matrix of rows, each row containing a character
+%boxPos contains x,y coordinates for the centroid the corresponding
+%character
 
 %TODO
 %   determine centroid NOTE: possible error in centroid calculation
@@ -18,12 +21,20 @@
 %imwrite(x,sting,'jpg');
 
 
-sting = 'images/logic/formula1.jpg';
+sting = 'images/logic/formula/formula1.jpg';
 Character = segmeter2(sting);
 Im = imread(sting);
+numBoxes = size(Character,2);
 
 
-for l = 1:size(Character,2)
+%read in a sample data image to get the correct output size
+s = imread('images/data/1_0.jpg');
+[a b] = size(s);
+
+%output matrix O
+centeredBox = zeros(numBoxes,a*b);
+
+for l = 1:numBoxes
     
 someBox = Character(l).BoundingBox();
 %http://www.mathworks.com/help/toolbox/images/ref/regionprops.html#bqkf8hf
@@ -38,7 +49,7 @@ b2 = box(1)+box(3);
 b3 = box(2);
 b4 = box(2)+box(4);
 if(b1 < 1)
-    b1 = 1
+    b1 = 1;
 end
 if(b2 > size(Im,1))
     b2 = size(Im,1);
@@ -67,8 +78,8 @@ for i = 1:x
 end
 %x and y centroid coordinates relative to the bounding box
 if(count > 0)
-x = floor(avg(1)/count)
-y = floor(avg(1)/count)
+x = floor(avg(2)/count);
+y = floor(avg(1)/count);
 else
     x = 1;
     y = 1;
@@ -86,49 +97,38 @@ pause
 %there may be a problem with this centroid...
 %either way the rest of this code should work
 
-%read in a sample data image to get the correct output size
-s = imread('images/data/1_0.jpg');
-[a b] = size(s);
+
 
 %center of box is x,y
 %top left corner of box is x-(a/2), y-(b/2) relative to the bounding box
 
-top_x = floor(x-(a/2))+box(1)
-top_y = floor(y-(b/2))+box(2)
+top_x = floor(x-(a/2))+box(1);
+top_y = floor(y-(b/2))+box(2);
 
 [s1 s2] = size(Im);
 if(top_x < 1)
     top_x = 1;
-    'error1'
 end
 
-if (top_x + a > s2)
+if (top_x + a > s1)
     top_x = s2-a;
-    'error2'
 end
 
 if(top_y < 1)
     top_y = 1;
-    'error3'
 end
 
-if (top_y + b > s1)
+if (top_y + b > s2)
     top_y = s1-b;
-    'error4'
 end
 
-'final check'
-top_y
-top_y+b
-top_x
-top_x+b
 
-I2 = Im(top_y:top_y+b, top_x:top_x+a);
-
-
-%imshow(I2)
+I2 = Im(top_y:top_y+b-1, top_x:top_x+a-1);
+centeredBox(l,:) = I2(:);
+boxPos(l,1) = x+box(1);
+boxPos(l,2) = y+box(2);
 
 %output the new image
-output_name = [ num2str(l) '.jpg'];
-imwrite(I2, output_name ,'JPEG'); %change this to output to a subfolder
+%output_name = [ num2str(l) '.jpg'];
+%imwrite(I2, output_name ,'JPEG'); %change this to output to a subfolder
 end
