@@ -23,6 +23,12 @@
 
 sting = 'images/logic/formula/formula1.jpg';
 Character = segmeter2(sting);
+%DO SOME NMS HERE
+Character = nonMaxSupp(Character);
+
+%END NMS STUFF
+
+
 Im = imread(sting);
 numBoxes = size(Character,2);
 
