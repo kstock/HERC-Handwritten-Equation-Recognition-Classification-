@@ -4,6 +4,81 @@
 
 %this is my messy playground, it will be cleaned up in a few days
 
+load('images/data/baseline-model.mat') ; % change to the model path
+
+
+%dir2 = 'images/extracted/formula1Filtered/';
+dir2 = 'images/fakeFormula/funct/';
+numPic = 7;
+
+parse = zeros(numPic,1);
+
+
+for i = 1:numPic
+    %temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
+    label = model.classify(model, imread(strcat(dir2, int2str(i),'.jpg' )));
+    label
+    parse(i) = getClass(label);%imread( strcat(dir2, int2str(i),'.jpg' ) );
+end
+
+
+%{ 
+%PROTOTPYE 1: used logistic reg
+
+directory = 'images/logic/';
+
+%get all the .jpg data files in directory
+file = dir( strcat(directory,'*.jpg') );
+
+data_x = zeros(length(file) * 100, 81);
+data_y = zeros(length(file) * 100,1);
+
+for i = 1:length(file)
+    
+    [data_x((i-1)*100 + 1:i*100,:) data_y((i-1)*100 + 1:i*100)] = getDataMat( strcat(directory, file(i).name ));
+    
+    
+end
+
+
+
+
+all_theta = oneVsAll(data_x,data_y,5,.1);
+
+%make predictions
+pred = predictOneVsAll(all_theta, data_x);
+
+
+%accuracy measure
+acc = mean(double(pred == data_y)) * 100
+
+
+
+
+
+dir2 = 'images/extracted/formula1Filtered/';
+test_x = zeros(7,81);
+
+for i = 1:7
+    temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
+    temp2 = HOG(temp);
+
+    test_x(i,:) = temp2;%imread( strcat(dir2, int2str(i),'.jpg' ) );
+end
+
+pred = predictOneVsAll(all_theta, test_x);
+
+
+&END PROTO1
+%}
+
+
+
+
+
+
+
+
 
 %{
 
@@ -57,51 +132,6 @@ data_y = [ones(200,1); 2*ones(200,1); 6*ones(100,1)];
 %}
 
 
-
-
-
-directory = 'images/logic/';
-
-%get all the .jpg data files in directory
-file = dir( strcat(directory,'*.jpg') );
-
-data_x = zeros(length(file) * 100, 81);
-data_y = zeros(length(file) * 100,1);
-
-for i = 1:length(file)
-    
-    [data_x((i-1)*100 + 1:i*100,:) data_y((i-1)*100 + 1:i*100)] = getDataMat( strcat(directory, file(i).name ));
-    
-    
-end
-
-
-
-
-all_theta = oneVsAll(data_x,data_y,5,.1);
-
-%make predictions
-pred = predictOneVsAll(all_theta, data_x);
-
-
-%accuracy measure
-acc = mean(double(pred == data_y)) * 100
-
-
-
-
-
-dir2 = 'images/extracted/formula1Filtered/';
-test_x = zeros(7,81);
-
-for i = 1:7
-    temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
-    temp2 = HOG(temp);
-
-    test_x(i,:) = temp2;%imread( strcat(dir2, int2str(i),'.jpg' ) );
-end
-
-pred = predictOneVsAll(all_theta, test_x);
 
 
 %{

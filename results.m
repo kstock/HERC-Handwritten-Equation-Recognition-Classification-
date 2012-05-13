@@ -23,8 +23,8 @@ acc_str = '';
 % z-axis: different cross-validation folds
 mistakes = zeros(20,20,5);
 
-load('data_x.mat');
-load('data_y.mat');
+%load('data_x.mat');
+%load('data_y.mat');
 
 k = 5;
 acc = zeros(k,1);

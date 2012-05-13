@@ -7,23 +7,24 @@ from scipy import io
 # writes a .tex file!
 
 #decoding the code!!
-#1: \\forall
-#2  \\exists
-#3  \\neg
-#4  \\left(
-#5  \\right)
-#6  x
-#7  y
-#8  z
-#9  \\neq
-#10 \\in
-#11 \\wedge
-#12 \\vee
-#13 \\rightarrow
-#14 \\leftrightarrow
-#15 \\subset
-#16 F
-#17 R
+#0: \\forall
+#1  \\exists
+#2  \\neg
+#3  \\left(
+#4  \\right)
+#5  x
+#6  y
+#7  z
+#8  \\neq
+#9 \\in
+#10 \\wedge
+#11 \\vee
+#12 \\rightarrow
+#13 \\leftrightarrow
+#14 \\subset
+#15 F
+#16 R
+#-1 OTHER ERROR!!!!
 code = [
         ' \\forall ',
         ' \\exists',
@@ -56,10 +57,11 @@ f.write(startDoc)
 
 
 #returns dict with key as matrix name, matrix as val
-labels = scipy.io.loadmat('parse2.mat')
-mat = labels['pred'][0]
+labels = scipy.io.loadmat('parse.mat')
+mat = labels['parse']#[0]
 print mat
 #mat = range(1,17)
+#mat = [0,5,1,6,16,5,6]
 for symbol in mat:
   f.write(code[symbol])
   print code[symbol]

@@ -32,6 +32,7 @@ function [data_x data_y] = getDataMat(varargin)
         test = imread( 'images/dataset_proc/oren_9.jpg');%read to get size for loop
         num_files = 10;%default for toyset 1
         data_x = zeros(1000,81);%HARDCODED
+        %data_x = zeros(1000,512);%HARDCODED
         data_y = zeros(1000,1);
     elseif strcmp(varargin{1},'directory')%if arg provided, assumes correct input in arg2:/
         jpg_list = dir( strcat(varargin{2},'*.jpg') );%get all jpgs!!
@@ -42,7 +43,7 @@ function [data_x data_y] = getDataMat(varargin)
         test = imread(filenames{1});%read to get size for loop
         num_files = length(filenames);%how many times to loop!
         data_x = zeros(num_files * 100,81);%HARDCODED
-        data_y = zeros(num_files * 100,1);
+        data_y = zeros(num_files * 100,1);       
     else %not directory, just get all the path args
         filenames = cell(1,nVarargs);
         for i = 1:length(filenames)%make cell array of provided img paths
@@ -81,7 +82,8 @@ function [data_x data_y] = getDataMat(varargin)
     class = 1;
     data_row = 1;
 
-%    sample_num = 0;
+    %sample_num = 200;
+    %tempNAME = 'leftParen';%1,3,;
 for file = 1:num_files
 
     %one arg provided then grab class name from end of file for getClass switch:
@@ -137,16 +139,33 @@ for file = 1:num_files
         
 
         temp2 = HOG(temp);
+%        binSize = 8 ;
+%        magnif = 3 ;
+%        Is = vl_imsmooth(single(temp), sqrt((binSize/magnif)^2 - .25)) ;
+%        [f,d] = vl_sift(Is);
+%        temp2 = d(:);
         
-        data_x(data_row,:) = temp2';
+%       'size_temp2'
+%       size(temp2)
+    
+%       if (length(temp2) < 512)
+%           temp2 = [temp2; zeros(512 - length(temp2),1)];        
+%       end
+           
+        temp2 = temp2';
+ %       size(temp2);
+        data_x(data_row,:) = temp2;
         data_y(data_row) = class;
 
         data_row = data_row + 1;
 
         %UNCOMMENT TO write out one image for every sample
-        %imwrite(temp,strcat(int2str(class),'_',int2str(sample_num),'.jpg'),'jpg');
-        %sample_num = sample_num + 1;
-
+        %if nVarargs ~= 0
+        %    %imwrite(temp,strcat(int2str(name),'_',int2str(sample_num),'.jpg'),'jpg');
+        %    imwrite(temp,strcat(tempNAME,'_',int2str(sample_num),'.jpg'),'jpg');
+        %    sample_num = sample_num + 1;
+        %end
+        
         r = r + r_len;
         if r > r_len * 10 %wrap around, new row
             r = r_len;
