@@ -45,10 +45,10 @@ predictOneVsAll.m // Predicts whether the label is 0 or 1 using learned logistic
 IMAGES!: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-data/      //each sample as a single image
-           // naming convention: CLASS_SAMPLE#
-           //this will be made more sane later
- 
+data/      
+            //folders for each class's files
+            //each sample as a single image
+           
 ______________________________________________________________________________
 //folder of processed data
 
@@ -119,6 +119,15 @@ segmenter_output/
                 InftyBOX#  //infty dataset example with bounding boxes from 
                            //     segmenter2
  
+
+______________________________________________________________________________
+//folder for testing formula data 
+
+fakeFormula/
+
+            /funct#
+
+
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 .mat files!
