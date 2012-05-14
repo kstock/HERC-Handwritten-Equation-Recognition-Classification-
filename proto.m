@@ -8,8 +8,8 @@ load('images/data/baseline-model.mat') ; % change to the model path
 
 
 %dir2 = 'images/extracted/formula1Filtered/';
-dir2 = 'images/fakeFormula/funct/';
-numPic = 7;
+dir2 = 'images/fakeFormula/funct6/';
+numPic = 30;
 
 parse = zeros(numPic,1);
 

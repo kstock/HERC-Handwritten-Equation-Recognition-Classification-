@@ -4,7 +4,9 @@ codes!
 
 proto.m  //(in progress, very messy) prototype 
 
-results.m // does classification, currently reports Cross Validation mean accuracy: 11.400000
+svmResults //classification based on SVM using vlfeat, adapted from a vlfeat example
+
+results.m // does classification using logistic regression
 
 getDataMat.m // takes optional arg and returns data_x matrix of HOG-ified samples, 
              // data_y matrix of corresponding classes
@@ -21,7 +23,7 @@ parse.py //parses a matrix into LaTeX, outputs to .tex file
 
 getClass.m //returns the class of a sample given a filename
 
-
+makeHoldout.py //takes random subset of data for holdout data
 
 synth.m // (in progress) synthetic data creation through linear transformations?
 
@@ -45,10 +47,16 @@ predictOneVsAll.m // Predicts whether the label is 0 or 1 using learned logistic
 IMAGES!: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-data/      
-            //folders for each class's files
-            //each sample as a single image
+data/     
+
+      Caltech-101/  //folders for each class's files
            
+      old trains/   //old svm stuff
+______________________________________________________________________________
+//folder of formulas to test on
+
+fakeFormula/ 
+
 ______________________________________________________________________________
 //folder of processed data
 

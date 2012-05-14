@@ -1,3 +1,7 @@
+%from:
+%http://www.vlfeat.org/applications/caltech-101-code.html
+
+
 %TODO
 
 %tweak params
@@ -56,8 +60,8 @@ function phow_caltech101
 conf.calDir = 'images/data/caltech-101' ;
 conf.dataDir = 'images/data/' ;
 conf.autoDownloadData = false ;
-conf.numTrain = 250 ;
-conf.numTest = 50 ;
+conf.numTrain = 50 ;
+conf.numTest = 50;
 conf.numClasses = 17 ;
 conf.numWords = 600 ;
 conf.numSpatialX = [2 4] ;
@@ -153,8 +157,8 @@ if ~exist(conf.vocabPath) || conf.clobber
   % Get some PHOW descriptors to train the dictionary
   selTrainFeats = vl_colsubset(selTrain, 30) ;
   descrs = {} ;
-  %for ii = 1:length(selTrainFeats)
-  parfor ii = 1:length(selTrainFeats)
+  for ii = 1:length(selTrainFeats)
+  %parfor ii = 1:length(selTrainFeats)
     im = imread(fullfile(conf.calDir, images{selTrainFeats(ii)})) ;
     im = standarizeImage(im) ;
     [drop, descrs{ii}] = vl_phow(im, model.phowOpts{:}) ;
@@ -182,8 +186,8 @@ end
 
 if ~exist(conf.histPath) || conf.clobber
   hists = {} ;
-  parfor ii = 1:length(images)
-  % for ii = 1:length(images)
+  %parfor ii = 1:length(images)
+   for ii = 1:length(images)
     fprintf('Processing %s (%.2f %%)\n', images{ii}, 100 * ii / length(images)) ;
     im = imread(fullfile(conf.calDir, images{ii})) ;
     hists{ii} = getImageDescriptor(model, im);
@@ -210,8 +214,8 @@ if ~exist(conf.modelPath) || conf.clobber
     case 'pegasos'
       lambda = 1 / (conf.svm.C *  length(selTrain)) ;
       w = [] ;
-      % for ci = 1:length(classes)
-      parfor ci = 1:length(classes)
+       for ci = 1:length(classes)
+      %parfor ci = 1:length(classes)
         perm = randperm(length(selTrain)) ;
         fprintf('Training model for class %s\n', classes{ci}) ;
         y = 2 * (imageClass(selTrain) == ci) - 1 ;
@@ -243,7 +247,7 @@ end
 
 % Estimate the class of the test images
 scores = model.w' * psix + model.b' * ones(1,size(psix,2)) ;
-[drop, imageEstClass] = max(scores, [], 1) ;
+[drop, imageEstClass] = max(scores, [], 1) ; 
 
 % Compute the confusion matrix
 idx = sub2ind([length(classes), length(classes)], ...
