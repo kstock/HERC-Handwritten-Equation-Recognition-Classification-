@@ -58,13 +58,16 @@ f.write(startDoc)
 
 #returns dict with key as matrix name, matrix as val
 labels = scipy.io.loadmat('parse.mat')
+#labels = scipy.io.loadmat('parseTILDE.mat')
+#labels = scipy.io.loadmat('mat/parse50train_tildeNeg.mat')
 mat = labels['parse']#[0]
-print mat
+#print mat
 #mat = range(1,17)
 #mat = [0,5,1,6,16,5,6]
+#mat = [5,14,6, 13, 0,7, 3, 7,9,5,12,7,9,6,4,10,1,7,3,7,9,6,10,2,3,7,9,6,4,4] 
 for symbol in mat:
   f.write(code[symbol])
   print code[symbol]
-
+  #print symbol
 
 f.write(endDoc)

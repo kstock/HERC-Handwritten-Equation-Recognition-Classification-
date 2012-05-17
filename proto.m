@@ -4,12 +4,13 @@
 
 %this is my messy playground, it will be cleaned up in a few days
 
-load('images/data/baseline-model.mat') ; % change to the model path
+%load('images/data/baseline-model.mat') ; % change to the model path
+load('images/data/old trains/50train tilde neg/baseline-model.mat') ; % change to the model path
 
 
 %dir2 = 'images/extracted/formula1Filtered/';
-dir2 = 'images/fakeFormula/funct6/';
-numPic = 30;
+dir2 = 'images/fakeFormula/funct7/';
+numPic = 12;
 
 parse = zeros(numPic,1);
 
@@ -21,6 +22,7 @@ for i = 1:numPic
     parse(i) = getClass(label);%imread( strcat(dir2, int2str(i),'.jpg' ) );
 end
 
+save('parse.mat','parse');
 
 %{ 
 %PROTOTPYE 1: used logistic reg
