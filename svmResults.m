@@ -60,10 +60,10 @@ function phow_caltech101
 conf.calDir = 'images/data/caltech-101' ;
 conf.dataDir = 'images/data/' ;
 conf.autoDownloadData = false ;
-conf.numTrain = 230;%50;
-conf.numTest = 50;%230;
-conf.numClasses = 17 ;
-conf.numWords = 600 ;
+conf.numTrain = 50;%50;
+conf.numTest = 230;
+conf.numClasses = 22 ;
+conf.numWords = 300 ;
 conf.numSpatialX = [2 4] ;
 conf.numSpatialY = [2 4] ;
 conf.quantizer = 'kdtree' ;
@@ -322,7 +322,7 @@ psix = vl_homkermap(hist, 1, 'kchi2') ;%MODIFIED???? removed arg 3 = .7
 
 scores = model.w' * psix + model.b'; 
 %sortIndex has the sorted class outputs
-[sortedValues,sortIndex] = sort(scores(:),'descend')
+[sortedValues,sortIndex] = sort(scores(:),'descend');
 
 [score, best] = max(scores) ;
 className = model.classes{best} ;

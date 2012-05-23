@@ -6,7 +6,8 @@ directory = 'images/data/Caltech-101/'
 destDir =  'images/data/holdout/'
 numHoldOut = 20
  
-for label in ['neg']:#['forall','exist', 'neg', 'leftParen', 'rightParen',
+for label in ['one','two','three','five','six']:
+             #['neg']:['forall','exist', 'neg', 'leftParen', 'rightParen',
              # 'x', 'y', 'z', 'ne', 'elem', 'and', 'or', 'ifThen', 'iff',
              # 'subset', 'F', 'R']:
   random.seed()

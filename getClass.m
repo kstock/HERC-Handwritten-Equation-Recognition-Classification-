@@ -22,6 +22,16 @@ code!!
 #14 \\subset
 #15 F
 #16 R
+#17 0
+#18 1
+#19 2
+#20 3
+#21 4
+#22 5
+#23 6
+#24 7
+#25 8
+#26 9
 #-1 OTHER ERROR!!!!
 %}
 
@@ -82,10 +92,40 @@ switch exp
         
     case 'F'
         class = 15;
-        
+
     case 'R'
         class = 16;
         
+    case 'zero'
+        class = 17
+        
+    case 'one'
+        class = 18;
+        
+    case 'two'
+        class = 19;
+        
+    case 'three'
+        class = 20;
+        
+    case 'four'
+        class = 21;
+        
+    case 'five'
+        class = 22;
+        
+    case 'six'
+        class = 23;
+        
+    case 'seven'
+        class = 24;
+        
+    case 'eight'
+        class = 25;
+        
+    case 'nine'
+        class = 26;
+
     otherwise 
         class = -1;%error checking
         

@@ -24,6 +24,16 @@ from scipy import io
 #14 \\subset
 #15 F
 #16 R
+#17 0
+#18 1
+#19 2
+#20 3
+#21 4
+#22 5
+#23 6
+#24 7
+#25 8
+#26 9
 #-1 OTHER ERROR!!!!
 code = [
         ' \\forall ',
@@ -43,6 +53,16 @@ code = [
         ' \\subset',
         ' F',
         ' R',
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9'
        ]
 
 
@@ -65,9 +85,36 @@ mat = labels['parse']#[0]
 #mat = range(1,17)
 #mat = [0,5,1,6,16,5,6]
 #mat = [5,14,6, 13, 0,7, 3, 7,9,5,12,7,9,6,4,10,1,7,3,7,9,6,10,2,3,7,9,6,4,4] 
-for symbol in mat:
-  f.write(code[symbol])
-  print code[symbol]
+
+posMat = [8,7]
+
+i = 0
+while i < len(mat):
+
+  if posMat[i] == 7: #if top right
+    f.write('^{')
+    print '^{'
+    f.write(code[mat[i]])
+    print code[ mat[i] ]
+    i += 1
+
+
+    while i < len(posMat) and posMat[i] == 6: # right, so still in superscript
+      f.write(code[mat[i]])
+      
+      print code[ mat[i] ]
+
+      if i < len(posMat):
+        i += 1
+      
+    f.write('}')
+    print '}'
+
+  if i < len(posMat):
+    f.write(code[ mat[i] ])
+    print code[ mat[i] ]
+    i += 1
+
   #print symbol
 
 f.write(endDoc)

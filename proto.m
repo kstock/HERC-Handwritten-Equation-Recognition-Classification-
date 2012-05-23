@@ -4,22 +4,27 @@
 
 %this is my messy playground, it will be cleaned up in a few days
 
-%load('images/data/baseline-model.mat') ; % change to the model path
-load('images/data/old trains/50train tilde neg/baseline-model.mat') ; % change to the model path
+load('images/data/baseline-model.mat') ; % change to the model path
+%load('images/data/old trains/50train tilde neg/baseline-model.mat') ; % change to the model path
 
 
-%dir2 = 'images/extracted/formula1Filtered/';
-dir2 = 'images/fakeFormula/funct7/';
-numPic = 12;
+%direct = 'images/extracted/formula1Filtered/';
+direct = 'images/fakeFormula/funct8/';
+%direct = 'images/data/holdout/five/';
+
+pics = dir(direct);
+pics = pics(4:end);
+numPic = length(dir(direct))-3;
+
 
 parse = zeros(numPic,1);
 
 
 for i = 1:numPic
     %temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
-    label = model.classify(model, imread(strcat(dir2, int2str(i),'.jpg' )));
+    label = model.classify(model, imread(strcat(direct, pics(i).name)));
     label
-    parse(i) = getClass(label);%imread( strcat(dir2, int2str(i),'.jpg' ) );
+    parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
 end
 
 save('parse.mat','parse');
