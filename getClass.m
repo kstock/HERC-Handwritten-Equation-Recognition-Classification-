@@ -97,7 +97,7 @@ switch exp
         class = 16;
         
     case 'zero'
-        class = 17
+        class = 17;
         
     case 'one'
         class = 18;
