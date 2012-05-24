@@ -26,7 +26,10 @@ for i = 1:length(files)
     end
     
     test = removeborder(test);
-      
+    
+    test(test < 200) = 0;
+    test(test >= 200) = 255;
+    
     imwrite(test,strcat(directory,name),'jpg');
     %imagesc(test)
 
