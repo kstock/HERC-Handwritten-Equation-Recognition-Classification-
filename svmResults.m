@@ -10,7 +10,7 @@
 %make soft output!
 
 
-function phow_caltech101
+function svmResults
 % PHOW_CALTECH101 Image classification in the Caltech-101 dataset
 %   This program demonstrates how to use VLFeat to construct an image
 %   classifier on the Caltech-101 data. The classifier uses PHOW
@@ -57,12 +57,12 @@ function phow_caltech101
 
 % AUTORIGHTS
 
-conf.calDir = 'images/data/caltech-101' ;
+conf.calDir = 'images/data/herc-data' ;
 conf.dataDir = 'images/data/' ;
 conf.autoDownloadData = false ;
 conf.numTrain = 50;%50;
 conf.numTest = 230;
-conf.numClasses = 22 ;
+conf.numClasses = 27;
 conf.numWords = 300 ;
 conf.numSpatialX = [2 4] ;
 conf.numSpatialY = [2 4] ;
