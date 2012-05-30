@@ -12,7 +12,7 @@
 %   deal with case where caracter is greater than the bounding box
 %
 
-%Character = segmeter2('images/dataset_proc/oren_9.jpg');
+%Character = segmenter2('images/dataset_proc/oren_9.jpg');
 %Im = imread('images/dataset_proc/oren_9.jpg');
 
 %read formula1,turn to grayscale, save over
@@ -22,7 +22,7 @@
 
 
 sting = 'images/logic/formula/formula1.jpg';
-Character = segmeter2(sting);
+Character = segmenter2(sting);
 %DO SOME NMS HERE
 Character = nonMaxSupp(Character);
 
@@ -90,6 +90,7 @@ else
     x = 1;
     y = 1;
 end
+
 
 %uncomment this block to test centroid coordinate
 %{
