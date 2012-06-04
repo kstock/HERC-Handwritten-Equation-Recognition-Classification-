@@ -7,7 +7,7 @@
 
 
 tokens = (
-    'BINOP',
+    'BINOP','POW',
     'NAME',#'NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
     'LPAREN','RPAREN','QUANT','VAR',
@@ -196,6 +196,13 @@ def p_expression_var(t):
     'expression : VAR '
     global foo
     t[0] = ('VAR',code[int(t[1])])
+
+
+def p_expression_pow(t):
+    'expression : VAR POW expression '
+    global foo
+    t[0] = ('POW',code[int(t[1])],t[3])
+
 
 
 def p_expression_name(t):
