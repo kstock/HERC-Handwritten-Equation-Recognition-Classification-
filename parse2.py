@@ -7,10 +7,10 @@
 
 
 tokens = (
+    'BINOP',
     'NAME',#'NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
     'LPAREN','RPAREN','QUANT','VAR',
-    'ELEM',
     )
 
 # Tokens
@@ -50,11 +50,11 @@ t_DIVIDE  = r'/'
 t_EQUALS  = r'='
 t_LPAREN  = r'3'
 t_RPAREN  = r'4'
+t_BINOP = r' 12 | 13 | 14 | 10 | 11 | 9 '
 t_QUANT = r'[01]'
-t_VAR = r'[567]'
-t_ELEM = r'9'
+t_VAR = r'[5678]| 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 '
 #t_NUMBER = '17'
-t_NAME    = r'[a-zA-Z_][a-zA-Z1-46-9_]*'
+t_NAME    = r'[a-zA-Z_][a-zA-Z]*'
 
 code = [
         ' \\forall ',
@@ -133,19 +133,26 @@ def p_statement_assign(t):
 
 def p_statement_expr(t):
     'statement : expression'
-    print(t[1])
+    #print(t[1])
+    if len(t) < 3:
+      t[0] = ('EXP',[t[1]])
+    else:
+      print 'FUCK'
+      t[1][1].append(t[2])
+      t[0] = t[1]
 
 def p_expression_binop(t):
-    '''expression :  expression ELEM expression
-                  | expression ELEM expression expression'''
-    if t[2] == '9'  :
-      global foo
-      print "THERE"
-      foo = t[1] + code[9] + t[3] +foo
-      t[0] = foo
-    elif t[2] == '-': t[0] = t[1] - t[3]
-    elif t[2] == '*': t[0] = t[1] * t[3]
-    elif t[2] == '/': t[0] = t[1] / t[3]
+    '''expression : expression BINOP expression '''
+                    #| expression BINOP expression
+#expression
+#                    | BINOP'''
+    #global foo
+    #foo =  t[1] + code[int(t[2])] + t[3] +foo     
+    #t[0] = foo#t[1] + code[12] + t[3] +foo
+    
+    t[0] = ('BINOP',code[int(t[2])], t[1],t[3])
+
+
 
 def p_expression_uminus(t):
     'expression : MINUS expression %prec UMINUS'
@@ -179,13 +186,16 @@ def p_expression_quant(t):
     global foo
     foo = code[int(t[1])] + code[int(t[2])] + foo
     t[0] = foo 
-
+    if len(t) < 4:
+      t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] )
+    else:
+      print 'expressions!!'
+      t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] ,t[3])
 
 def p_expression_var(t):
     'expression : VAR '
-    print 'HERE'
     global foo
-    t[0] = code[int(t[1])]  
+    t[0] = ('VAR',code[int(t[1])])
 
 
 def p_expression_name(t):
@@ -197,9 +207,9 @@ def p_expression_name(t):
         t[0] = 0
 
 
-def p_empty(p):
-    'empty :'
-    pass
+#def p_empty(p):
+#    'empty :'
+#    pass
 
 
 def p_error(t):
@@ -215,5 +225,5 @@ while 1:
         break
 
     foo = ''
-    yacc.parse(s)
-
+    yay = yacc.parse(s)
+    print yay
