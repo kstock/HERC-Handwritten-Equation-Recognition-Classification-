@@ -1,7 +1,42 @@
 
+def addSuper(s,pos):
+  tokens = s.split()
+  lastTok = len(tokens)
+
+  offset = 0
+  unbalanced = 0
+  i = 0
+  while i < lastTok :
+    
+    if pos[i] == 7:
+      tokens.insert(i+offset,'3')
+      offset += 1
+      unbalanced += 1
+    elif pos[i] == 5:
+      tokens.insert(i+offset,'4')
+      offset += 1
+      unbalanced -= 1
+
+    elif i + 1 > lastTok and unbalanced > 0:
+      tokens.insert(i+offset,'4')
+
+    i+=1
+    
+  return ' '.join(tokens)
+
+
+
 def parse2(s,pos):
 
   bar = []
+#2 2 2 2 2 -> 2^{22}22    
+#8 7 6 5 6 -> 
+
+
+    
+
+
+
   def traver(tup):
     if hasattr(tup,'__iter__'):
       for subtup in tup:
@@ -177,10 +212,13 @@ def parse2(s,pos):
       t[0] = ('NEG',code[int(t[1])],t[2])  
 
   def p_expression_group(t):
-      'expression : LPAREN expression RPAREN'
-      t[0] = ('PAREN', code[int(t[1])] , t[2], code[int(t[3])] )
+      '''expression : LPAREN expression RPAREN
+                    | LPAREN expression RPAREN expression '''
 
-
+      if len(t) < 5:
+        t[0] = ('PAREN', code[int(t[1])] , t[2], code[int(t[3])] )
+      else:
+        t[0] = ('PAREN', code[int(t[1])] , t[2], code[int(t[3])],t[4] )
 
 
 #def p_expression_number(t):
@@ -199,13 +237,23 @@ def parse2(s,pos):
   def p_expression_number(t):
       '''expression : NUMBER
                     | NUMBER expression '''
-      if len(t) < 3:
+
+      line = t.lexpos(1)
+
+      print (line,line)
+      if len(t) < 3: #NUMBER 
+
+      #  if pos[line] == 6 and paren[0] > 0:
+      #    t[0] = ('NUMBER',code[int(t[1])], '}')
+      #    paren[0] -= 1
+      #  else:
         t[0] = ('NUMBER',code[int(t[1])])
-      else:
-        #line = t.lineno(1)
-        #if pos[line] == 
-        #  t[0] = ('NUMBER',code[int(t[1])], t[2])
-        #else:
+
+      else: #NUMBER expression 
+     #   if pos[line] == 7:
+     #     t[0] = ('NUMBER',code[int(t[1])], '^{', t[2])
+     #     paren[0] += 1
+     #   else:
         t[0] = ('NUMBER',code[int(t[1])], t[2])
 
 
@@ -240,11 +288,21 @@ def parse2(s,pos):
       print 'HERE'
       t[0] = ('TRASH', t[2])
 
+  def find_column(input_str, token):
+      last_cr = input_str.rfind('\n',0,token.lexpos)
+      if last_cr < 0:
+          last_cr = 0
+      column = (token.lexpos - last_cr) + 1
+      return column
+
+
   def p_error(t):
-      t = 'TRASH'
-      print 'fuck'
-      yacc.restart()
-#    print("Syntax error at '%s'" % t.value)
+    #  t = 'TRASH'
+#      print 'fuck'
+   #   yacc.restart()
+    print("Syntax error at '%s'" % t.value)
+
+
 
   import ply.yacc as yacc
   yacc.yacc()
@@ -257,7 +315,10 @@ def parse2(s,pos):
 
   foo = ''
   #pos = [1,2,3]
-  yay = yacc.parse(s)
+  paren = [0]
+  s = addSuper(s,pos)
+  print s
+  yay = yacc.parse(s,tracking=True)
   traver(yay)
   print ''.join(bar)
 
