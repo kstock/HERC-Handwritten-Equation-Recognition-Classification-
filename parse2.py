@@ -1,3 +1,13 @@
+bar = []
+def traver(tup):
+  if hasattr(tup,'__iter__'):
+    for subtup in tup:
+      traver(subtup)
+  else:
+    if not tup.isupper():
+      #print tup
+      bar.append(tup)
+      #print bar
 
 # -----------------------------------------------------------------------------
 # calc.py
@@ -7,7 +17,7 @@
 
 
 tokens = (
-    'BINOP','POW',
+    'BINOP','POW','NEG',
     'NAME',#'NUMBER',
     'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
     'LPAREN','RPAREN','QUANT','VAR',
@@ -50,6 +60,7 @@ t_DIVIDE  = r'/'
 t_EQUALS  = r'='
 t_LPAREN  = r'3'
 t_RPAREN  = r'4'
+t_NEG = r'2'
 t_BINOP = r' 12 | 13 | 14 | 10 | 11 | 9 '
 t_QUANT = r'[01]'
 t_VAR = r'[5678]| 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 '
@@ -115,11 +126,11 @@ lex.lex()
 
 # Parsing rules
 
-precedence = (
-    ('left','PLUS','MINUS'),
-    ('left','TIMES','DIVIDE'),
-    ('right','UMINUS'),
-    )
+#precedence = (
+#    ('left','PLUS','MINUS'),
+#    ('left','TIMES','DIVIDE'),
+#    ('right','UMINUS'),
+#    )
 
 # dictionary of names
 names = { }
@@ -134,12 +145,14 @@ def p_statement_assign(t):
 def p_statement_expr(t):
     'statement : expression'
     #print(t[1])
-    if len(t) < 3:
-      t[0] = ('EXP',[t[1]])
-    else:
-      print 'FUCK'
-      t[1][1].append(t[2])
-      t[0] = t[1]
+    t[0] = ('EXP',t[1])
+    
+#if len(t) < 3:
+#      t[0] = ('EXP',[t[1]])
+#    else:
+#      print 'FUCK'
+#      t[1][1].append(t[2])
+#      t[0] = t[1]
 
 def p_expression_binop(t):
     '''expression : expression BINOP expression '''
@@ -150,15 +163,16 @@ def p_expression_binop(t):
     #foo =  t[1] + code[int(t[2])] + t[3] +foo     
     #t[0] = foo#t[1] + code[12] + t[3] +foo
     
-    t[0] = ('BINOP',code[int(t[2])], t[1],t[3])
+    t[0] = ('BINOP', t[1],code[int(t[2])],t[3])
 
 
 
 def p_expression_uminus(t):
-    'expression : MINUS expression %prec UMINUS'
-    global foo
-    foo += code[1]
-    t[0] = foo#str(-t[2])
+    'expression : NEG expression' # %prec UMINUS'
+    #global foo
+    #foo += code[1]
+    #t[0] = foo#str(-t[2])
+    t[0] = ('NEG',code[int(t[1])],t[2])  
 
 def p_expression_group(t):
     'expression : LPAREN expression'
@@ -232,5 +246,26 @@ while 1:
         break
 
     foo = ''
+    pos = [1,2,3]
     yay = yacc.parse(s)
-    print yay
+    traver(yay)
+
+
+
+def paserThis(tup):
+  foo = ''
+  i = 1
+  j = 1
+  sent = True
+  while sent:
+
+    if tup[i][j] == 'QUANT':
+      foo += tup[i][j+1][j+2]
+      i+=1
+
+
+    try:
+      tup[i][j]
+    except IndexError:
+      sent = False
+
