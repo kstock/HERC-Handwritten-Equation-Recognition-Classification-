@@ -1,13 +1,16 @@
-bar = []
-def traver(tup):
-  if hasattr(tup,'__iter__'):
-    for subtup in tup:
-      traver(subtup)
-  else:
-    if not tup.isupper():
-      #print tup
-      bar.append(tup)
-      #print bar
+
+def parse2(s,pos):
+
+  bar = []
+  def traver(tup):
+    if hasattr(tup,'__iter__'):
+      for subtup in tup:
+        traver(subtup)
+    else:
+      if not tup.isupper():
+        #print tup
+        bar.append(tup)
+        #print bar
 
 # -----------------------------------------------------------------------------
 # calc.py
@@ -16,12 +19,12 @@ def traver(tup):
 # -----------------------------------------------------------------------------
 
 
-tokens = (
-    'BINOP','POW','NEG',
-    'NAME',#'NUMBER',
-    'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
-    'LPAREN','RPAREN','QUANT','VAR',
-    )
+  tokens = (
+      'BINOP','POW','NEG','TRASH',
+      'NAME','NUMBER',
+      'PLUS','MINUS','TIMES','DIVIDE','EQUALS',
+      'LPAREN','RPAREN','QUANT','VAR',
+      )
 
 # Tokens
 #decoding the code!!
@@ -53,49 +56,48 @@ tokens = (
 #25 8
 #26 9
 
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
-t_EQUALS  = r'='
-t_LPAREN  = r'3'
-t_RPAREN  = r'4'
-t_NEG = r'2'
-t_BINOP = r' 12 | 13 | 14 | 10 | 11 | 9 '
-t_QUANT = r'[01]'
-t_VAR = r'[5678]| 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 '
-#t_NUMBER = '17'
-t_NAME    = r'[a-zA-Z_][a-zA-Z]*'
-
-code = [
-        ' \\forall ',
-        ' \\exists',
-        ' \\neg',
-        ' \\left(',
-        ' \\right)',
-        ' x',
-        ' y',
-        ' z',
-        ' \\neq',
-        ' \\in',
-        ' \\wedge',
-        ' \\vee',
-        ' \\rightarrow',
-        ' \\leftrightarrow',
-        ' \\subset',
-        ' F',
-        ' R',
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9'
-       ]
+  t_PLUS    = r'\+'
+  t_MINUS   = r'-'
+  t_TIMES   = r'\*'
+  t_DIVIDE  = r'/'
+  t_EQUALS  = r'='
+  t_LPAREN  = r'3'
+  t_RPAREN  = r'4'
+  t_NEG = r'2'
+  t_BINOP = r' 12 | 13 | 14 | 10 | 11 | 9 '
+  t_QUANT = r'[01]'
+  t_VAR = r'[5678]| 16'
+  t_NUMBER = r'17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 '
+  t_NAME    = r'[a-zA-Z_][a-zA-Z]*'
+  code = [
+          ' \\forall ',
+          ' \\exists',
+          ' \\neg',
+          ' \\left(',
+          ' \\right)',
+          ' x',
+          ' y',
+          ' z',
+          ' \\neq',
+          ' \\in',
+          ' \\wedge',
+          ' \\vee',
+          ' \\rightarrow',
+          ' \\leftrightarrow',
+          ' \\subset',
+          ' F',
+          ' R',
+          '0',
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9'
+         ]
 
 
 
@@ -110,19 +112,19 @@ code = [
 
 # Ignored characters
 
-t_ignore = " \t"
+  t_ignore = " \t"
 
-def t_newline(t):
-    r'\n+'
-    t.lexer.lineno += t.value.count("\n")
-    
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
-    
+  def t_newline(t):
+      r'\n+'
+      t.lexer.lineno += t.value.count("\n")
+      
+  def t_error(t):
+      print("Illegal character '%s'" % t.value[0])
+      t.lexer.skip(1)
+      
 # Build the lexer
-import ply.lex as lex
-lex.lex()
+  import ply.lex as lex
+  lex.lex()
 
 # Parsing rules
 
@@ -133,20 +135,20 @@ lex.lex()
 #    )
 
 # dictionary of names
-names = { }
-global foo
-foo = ''
+  names = { }
+  global foo
+  foo = ''
 
 
-def p_statement_assign(t):
-    'statement : NAME EQUALS expression'
-    names[t[1]] = t[3]
+  def p_statement_assign(t):
+      'statement : NAME EQUALS expression'
+      names[t[1]] = t[3]
 
-def p_statement_expr(t):
-    'statement : expression'
-    #print(t[1])
-    t[0] = ('EXP',t[1])
-    
+  def p_statement_expr(t):
+      'statement : expression'
+      #print(t[1])
+      t[0] = ('EXP',t[1])
+      
 #if len(t) < 3:
 #      t[0] = ('EXP',[t[1]])
 #    else:
@@ -154,39 +156,30 @@ def p_statement_expr(t):
 #      t[1][1].append(t[2])
 #      t[0] = t[1]
 
-def p_expression_binop(t):
-    '''expression : expression BINOP expression '''
-                    #| expression BINOP expression
+  def p_expression_binop(t):
+      '''expression : expression BINOP expression '''
+                      #| expression BINOP expression
 #expression
 #                    | BINOP'''
-    #global foo
-    #foo =  t[1] + code[int(t[2])] + t[3] +foo     
-    #t[0] = foo#t[1] + code[12] + t[3] +foo
-    
-    t[0] = ('BINOP', t[1],code[int(t[2])],t[3])
+      #global foo
+      #foo =  t[1] + code[int(t[2])] + t[3] +foo     
+      #t[0] = foo#t[1] + code[12] + t[3] +foo
+      
+      t[0] = ('BINOP', t[1],code[int(t[2])],t[3])
 
 
 
-def p_expression_uminus(t):
-    'expression : NEG expression' # %prec UMINUS'
-    #global foo
-    #foo += code[1]
-    #t[0] = foo#str(-t[2])
-    t[0] = ('NEG',code[int(t[1])],t[2])  
+  def p_expression_uminus(t):
+      'expression : NEG expression' # %prec UMINUS'
+      #global foo
+      #foo += code[1]
+      #t[0] = foo#str(-t[2])
+      t[0] = ('NEG',code[int(t[1])],t[2])  
 
-def p_expression_group(t):
-    'expression : LPAREN expression'
-    global foo
-    foo = code[3] + foo 
-    t[0] = foo
+  def p_expression_group(t):
+      'expression : LPAREN expression RPAREN'
+      t[0] = ('PAREN', code[int(t[1])] , t[2], code[int(t[3])] )
 
-def p_expression_group2(t):
-    'expression : RPAREN '
-    global foo
-    global bar
-    
-    bar = code[4]
-    t[0] = foo 
 
 
 
@@ -194,78 +187,77 @@ def p_expression_group2(t):
 #    'expression : NUMBER'
 #    t[0] = t[1]
 
-def p_expression_quant(t):
-    '''expression : QUANT VAR
-                  | QUANT VAR expression '''
-    global foo
-    foo = code[int(t[1])] + code[int(t[2])] + foo
-    t[0] = foo 
-    if len(t) < 4:
-      t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] )
-    else:
-      print 'expressions!!'
-      t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] ,t[3])
+  def p_expression_quant(t):
+      '''expression : QUANT VAR
+                    | QUANT VAR expression '''
+      if len(t) < 4:
+        t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] )
+      else:
+        print 'expressions!!'
+        t[0] = ('QUANT',code[int(t[1])], code[int(t[2])] ,t[3])
 
-def p_expression_var(t):
-    'expression : VAR '
-    global foo
-    t[0] = ('VAR',code[int(t[1])])
-
-
-def p_expression_pow(t):
-    'expression : VAR POW expression '
-    global foo
-    t[0] = ('POW',code[int(t[1])],t[3])
+  def p_expression_number(t):
+      '''expression : NUMBER
+                    | NUMBER expression '''
+      if len(t) < 3:
+        t[0] = ('NUMBER',code[int(t[1])])
+      else:
+        #line = t.lineno(1)
+        #if pos[line] == 
+        #  t[0] = ('NUMBER',code[int(t[1])], t[2])
+        #else:
+        t[0] = ('NUMBER',code[int(t[1])], t[2])
 
 
+  def p_expression_var(t):
+      'expression : VAR '
+      global foo
+      t[0] = ('VAR',code[int(t[1])])
 
-def p_expression_name(t):
-    'expression : NAME'
-    try:
-        t[0] = names[t[1]]
-    except LookupError:
-        print("Undefined name '%s'" % t[1])
-        t[0] = 0
+
+  def p_expression_pow(t):
+      'expression : VAR POW expression '
+      global foo
+      t[0] = ('POW',code[int(t[1])],t[3])
+
+
+
+  def p_expression_name(t):
+      'expression : NAME'
+      try:
+          t[0] = names[t[1]]
+      except LookupError:
+          print("Undefined name '%s'" % t[1])
+          t[0] = 0
 
 
 #def p_empty(p):
 #    'empty :'
 #    pass
 
+  def p_expression_trash(t):
+      'expression : TRASH expression'
+      print 'HERE'
+      t[0] = ('TRASH', t[2])
 
-def p_error(t):
-    print("Syntax error at '%s'" % t.value)
+  def p_error(t):
+      t = 'TRASH'
+      print 'fuck'
+      yacc.restart()
+#    print("Syntax error at '%s'" % t.value)
 
-import ply.yacc as yacc
-yacc.yacc()
+  import ply.yacc as yacc
+  yacc.yacc()
 
-while 1:
-    try:
-        s = input('calc > ')   # Use raw_input on Python 2
-    except EOFError:
-        break
+  #while 1:
+      #try:
+      #    s = input('calc > ')   # Use raw_input on Python 2
+      #except EOFError:
+      #    break
 
-    foo = ''
-    pos = [1,2,3]
-    yay = yacc.parse(s)
-    traver(yay)
-
-
-
-def paserThis(tup):
   foo = ''
-  i = 1
-  j = 1
-  sent = True
-  while sent:
-
-    if tup[i][j] == 'QUANT':
-      foo += tup[i][j+1][j+2]
-      i+=1
-
-
-    try:
-      tup[i][j]
-    except IndexError:
-      sent = False
+  #pos = [1,2,3]
+  yay = yacc.parse(s)
+  traver(yay)
+  print ''.join(bar)
 
