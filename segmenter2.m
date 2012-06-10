@@ -62,7 +62,7 @@ Character = struct('BoundingBox',zeros(1,4));
 nrValidDetections = 0;
 for i=1:length(labels)
     D = regionprops(ImL==labels(i));
-    if D.Area > 10
+    if (D.Area > 100)
         nrValidDetections = nrValidDetections + 1;
         Character(nrValidDetections).BoundingBox = D.BoundingBox;
     end %end if
@@ -83,6 +83,8 @@ for i=1:nrValidDetections
                           Character(i).BoundingBox(2) ...
                           Character(i).BoundingBox(3) ...
                           Character(i).BoundingBox(4)]);
+    %str = sprintf('%d',i);
+    %text(Character(i).BoundingBox(1), Character(i).BoundingBox(2), str);
 
 end %end for i=1:nrValidDetections
 

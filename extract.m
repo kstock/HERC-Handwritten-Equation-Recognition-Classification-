@@ -21,17 +21,16 @@
 %imwrite(x,sting,'jpg');
 
 
-sting = 'images/logic/formula/formula1.jpg';
+sting = 'images/logic/formula/formula1_crop.jpg';
+
+%sting = 'images/numbers/eight_1.jpg';   
 Character = segmenter2(sting);
+
 %DO SOME NMS HERE
-Character = nonMaxSupp(Character);
-
+%Character = nonMaxSupp(Character);
 %END NMS STUFF
-
-
-Im = imread(sting);
 numBoxes = size(Character,2);
-
+Im = imread(sting);
 
 %read in a sample data image to get the correct output size
 s = imread('images/data/1_0.jpg');
@@ -39,103 +38,73 @@ s = imread('images/data/1_0.jpg');
 
 %output matrix O
 centeredBox = zeros(numBoxes,a*b);
-
+'STARTING LOOP'
 for l = 1:numBoxes
+    l
+    someBox = Character(l).BoundingBox();
+    %http://www.mathworks.com/help/toolbox/images/ref/regionprops.html#bqkf8hf
+
+    box = floor(someBox); %??Iono why bounding box has non-integer fields
+
+    %imagesc( Im(238:238+35,842:842+62)) %character(20) from oren_9
+    %figure
+    %imagesc( Im( box(1):box(1)+box(3),box(2):box(2)+box(4)))
     
-someBox = Character(l).BoundingBox();
-%http://www.mathworks.com/help/toolbox/images/ref/regionprops.html#bqkf8hf
-
-
-box = floor(someBox); %??Iono why bounding box has non-integer fields
-
-%imagesc( Im(238:238+35,842:842+62)) %character(20) from oren_9
-%imagesc( Im( box(1):box(1)+box(3),box(2):box(2)+box(4)))
-b1 = box(1);
-b2 = box(1)+box(3);
-b3 = box(2);
-b4 = box(2)+box(4);
-if(b1 < 1)
-    b1 = 1;
-end
-if(b2 > size(Im,1))
-    b2 = size(Im,1);
-end
-if(b3 < 1)
-    b3 = 1;
-end
-if(b4 > size(Im,2))
-    b4 = size(Im,2);
-end
-I = Im( b1:b2, b3:b4);
-
-%find the centroid of I
-
-avg = [0 0];
-count = 0;
-[x y] = size(I);
-for i = 1:x
-    for j = 1:y
-        if(I(i,j) < 130)
-           avg(1) = avg(1) + j;
-           agv(2) = avg(2) + i;
-           count = count + 1;
-        end
+    %ensure bounding box is within the image 
+    b1 = box(1); 
+    b2 = box(1)+box(3); 
+    b3 = box(2);
+    b4 = box(2)+box(4);
+    if(b1 < 1)
+        b1 = 1;
+        'case1'
     end
+    if(b2 > size(Im,2))
+        b2 = size(Im,1);
+        'case2'
+    end
+    if(b3 < 1)
+        b3 = 1;
+        'case3'
+    end
+    if(b4 > size(Im,1))
+        b4 = size(Im,2);
+        'case4'
+    end
+    if(box(3) > 400 || box(4) > 400 )
+        'too large'
+        continue
+    end
+    I = Im(b3:b4,b1:b2); %extract pixels contained in bounding box
+    subplot(1,2,1)
+    colormap('gray');
+    imagesc(I);
+    str = sprintf('box: %d pre-padding',l);
+    title(str);
+    %I = imcrop(Im)
+    if(size(I,1) > a & size(I,2) > b)
+        I2 = I(1:a,1:b);
+    elseif(size(I,1) > a)
+        t = I(1:a-2,:);
+        I2 = impad(t,[a b]);
+    elseif(size(I,2) > b)
+         t = I(:,1:b-2);
+         I2 = impad(t,[a b]);
+    else
+        I2 = impad(I,[a b]);
+    end
+    subplot(1,2,2)
+    colormap('gray');
+    imagesc(I2);
+    str = sprintf('box: %d post-padding',l);
+    title(str);
+    pause;
+    
+    
+
+
+    %output the new image
+    %output_name = [ num2str(l) '.jpg'];
+    %imwrite(I2, colormap('gray'), output_name ,'JPEG'); %change this to output to a subfolder
 end
-%x and y centroid coordinates relative to the bounding box
-if(count > 0)
-x = floor(avg(2)/count);
-y = floor(avg(1)/count);
-else
-    x = 1;
-    y = 1;
-end
-
-
-%uncomment this block to test centroid coordinate
-%{
-imshow(I)
-hold on
-plot(x,y,'b*');
-hold off
-pause
-%}
-
-%there may be a problem with this centroid...
-%either way the rest of this code should work
-
-
-
-%center of box is x,y
-%top left corner of box is x-(a/2), y-(b/2) relative to the bounding box
-
-top_x = floor(x-(a/2))+box(1);
-top_y = floor(y-(b/2))+box(2);
-
-[s1 s2] = size(Im);
-if(top_x < 1)
-    top_x = 1;
-end
-
-if (top_x + a > s1)
-    top_x = s2-a;
-end
-
-if(top_y < 1)
-    top_y = 1;
-end
-
-if (top_y + b > s2)
-    top_y = s1-b;
-end
-
-
-I2 = Im(top_y:top_y+b-1, top_x:top_x+a-1);
-centeredBox(l,:) = I2(:);
-boxPos(l,1) = x+box(1);
-boxPos(l,2) = y+box(2);
-
-%output the new image
-%output_name = [ num2str(l) '.jpg'];
-%imwrite(I2, output_name ,'JPEG'); %change this to output to a subfolder
-end
+bbpos = bbpos(Character)

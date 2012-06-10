@@ -6,11 +6,11 @@ function [rb] = removeborder(I)
     [a b] = size(rb);
     ydiff = floor(a/10);
     xdiff = floor(b/10);
-    margin = 30;
+    margin = 33;
     
     for ii = 1:gridsize+1
-        startx = floor((ii-1)*xdiff)-margin/2;
-        starty = floor((ii-1)*ydiff)-margin/2;
+        startx = floor((ii-1)*xdiff)-floor(margin/2);
+        starty = floor((ii-1)*ydiff)-floor(margin/2);
         
         
         if(startx < 1)
