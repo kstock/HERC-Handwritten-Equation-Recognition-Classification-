@@ -65,9 +65,9 @@ conf.calDir = 'images/data/herc-data' ;
 
 conf.dataDir = 'images/data/' ;
 conf.autoDownloadData = false ;
-conf.numTrain = 10;%50;%50;
-conf.numTest = 10;%230;
-conf.numClasses = 27;
+conf.numTrain = 50;
+conf.numTest = 230;
+conf.numClasses = 32;
 conf.numWords = 300 ;
 conf.numSpatialX = [2 4] ;
 conf.numSpatialY = [2 4] ;
@@ -101,9 +101,9 @@ vl_twister('state',conf.randSeed) ;
 
 
 
-cvFoldK = 2;
+cvFoldK = 4;
 acc = zeros(1,cvFoldK);
-cvNumTest = ((conf.numTrain + conf.numTest)*1)/2;
+cvNumTest = ((conf.numTrain + conf.numTest)*3)/4;
 
 %wtf = zeros(1,cvFoldK);
 
@@ -158,7 +158,7 @@ save('cvind2.mat','cvInd');
 
 
 
-for i = 1:1%cvFoldK
+for i = 1: cvFoldK
     
 conf.prefix = strcat(conf.prefix,int2str(i));
 
@@ -283,17 +283,17 @@ end
 scores = model.w' * psix + model.b' * ones(1,size(psix,2)) ;
 [drop, imageEstClass] = max(scores, [], 1) ; 
 
-save('cvimageEstClass.mat','imageEstClass');
+%save('cvimageEstClass.mat','imageEstClass');
 
 %save('cvStuff.mat','selTrain','imageClass','images','psix');
-save('cvStuff.mat')
+%save('cvStuff.mat')
 
 % Compute the confusion matrix
 idx = sub2ind([length(classes), length(classes)], ...
-              imageClass(selTest), imageEstClass(selTest)) 
+              imageClass(selTest), imageEstClass(selTest)) ;
 
 confus = zeros(length(classes)) ;
-confus = vl_binsum(confus, ones(size(idx)), idx) 
+confus = vl_binsum(confus, ones(size(idx)), idx) ;
 
 % Plots
 figure(1) ; clf;

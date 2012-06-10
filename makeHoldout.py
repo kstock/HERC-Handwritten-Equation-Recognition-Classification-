@@ -2,11 +2,12 @@
 
 import os,glob,random,shutil
 
-directory = 'images/data/Caltech-101/'
+directory = 'images/data/herc-data/'
 destDir =  'images/data/holdout/'
 numHoldOut = 20
  
-for label in ['seven','nine']:
+for label in ['integral','star','minus','plus','sigma']:
+             #['seven','nine']:
              #['zero','four','eight']:
              #['one','two','three','five','six']:
              #['neg']:['forall','exist', 'neg', 'leftParen', 'rightParen',
