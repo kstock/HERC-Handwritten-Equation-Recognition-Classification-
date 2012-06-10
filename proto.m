@@ -4,29 +4,91 @@
 
 %this is my messy playground, it will be cleaned up in a few days
 
-load('images/data/baseline-model.mat') ; % change to the model path
+%load('images/data/baseline-model.mat') ; % change to the model path
 %load('images/data/old trains/50train tilde neg/baseline-model.mat') ; % change to the model path
+load('images/data/cvbaseline-model.mat') ; % change to the model path
 
 
 %direct = 'images/extracted/formula1Filtered/';
-direct = 'images/fakeFormula/funct8/';
-%direct = 'images/data/holdout/five/';
+%direct = 'images/fakeFormula/funct7/';
+%direct = 'images/data/holdout/rightParen/';
+%direct = 'images/data/herc-data/nine/';
 
-pics = dir(direct);
-pics = pics(4:end);
-numPic = length(dir(direct))-3;
+direct = 'images/data/holdout/';
+%direct = 'images/data/herc-data/';
+
+
+numberOfLabels = 27;
+
+numSamplesEach = 20;
+
+
+
+classes = dir(direct) ;
+classes = classes([classes.isdir]) ;
+classes = {classes(3:numberOfLabels+2).name} ;
+
+
+
+images = {} ;
+imageClass = {} ;
+for ci = 1:length(classes)
+  ims = dir(fullfile(direct, classes{ci}, '*.jpg'))' ;
+  ims = vl_colsubset(ims, numSamplesEach) ;
+  ims = cellfun(@(x)fullfile(classes{ci},x),{ims.name},'UniformOutput',false) ;
+  images = {images{:}, ims{:}} ;
+  imageClass{end+1} = ci * ones(1,length(ims)) ;
+end
+
+%load('cvStuff.mat');
+
+
+
+numPic = length(images);
+
+
+%pics = dir(direct);
+%pics = pics(4:end);
+%numPic = length(dir(direct))-3;
+
 
 
 parse = zeros(numPic,1);
 
+count = 1;
+correct = 0;
 
+correctLabel = 1;
 for i = 1:numPic
     %temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
-    label = model.classify(model, imread(strcat(direct, pics(i).name)));
-    label
-    parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
+    label = model.classify(model, imread(fullfile(strcat(direct, images{i}))));
+     
+
+    if strcmp(label,classes{correctLabel})
+        correct = correct + 1;
+    %else
+     %   label
+      %  classes{correctLabel}
+    end
+   
+    
+    count = count + 1;
+    
+    if count > numSamplesEach
+       correctLabel = correctLabel + 1
+       count = 1;
+    end
+   %{ 
+    if ~ strcmp(label,'rightParen')
+        count = count + 1;
+    end
+    %}
+    %parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
 end
 
+
+correct
+correct/numPic
 save('parse.mat','parse');
 
 %{ 

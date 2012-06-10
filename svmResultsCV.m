@@ -1,4 +1,4 @@
-%from:
+%code modified from:
 %http://www.vlfeat.org/applications/caltech-101-code.html
 
 
@@ -57,13 +57,16 @@ function svmResultsCV
 
 % AUTORIGHTS
 
-cvFoldK = 4;
+
+
 
 conf.calDir = 'images/data/herc-data' ;
+%conf.calDir = 'images/data/holdout/' ;
+
 conf.dataDir = 'images/data/' ;
 conf.autoDownloadData = false ;
-conf.numTrain = 2;%50;%50;
-conf.numTest = 2;%230;
+conf.numTrain = 10;%50;%50;
+conf.numTest = 10;%230;
 conf.numClasses = 27;
 conf.numWords = 300 ;
 conf.numSpatialX = [2 4] ;
@@ -95,6 +98,15 @@ conf.resultPath = fullfile(conf.dataDir, [conf.prefix '-result']) ;
 randn('state',conf.randSeed) ;
 rand('state',conf.randSeed) ;
 vl_twister('state',conf.randSeed) ;
+
+
+
+cvFoldK = 2;
+acc = zeros(1,cvFoldK);
+cvNumTest = ((conf.numTrain + conf.numTest)*1)/2;
+
+%wtf = zeros(1,cvFoldK);
+
 
 % --------------------------------------------------------------------
 %                                            Download Caltech-101 data
@@ -143,12 +155,15 @@ cvInd = cvpartition(images,'kfold',cvFoldK);
 imageClass = cat(2, imageClass{:}) ;
 
 save('cvind2.mat','cvInd');
-for i = 1:cvFoldK
+
+
+
+for i = 1:1%cvFoldK
     
 conf.prefix = strcat(conf.prefix,int2str(i));
 
 %selTrain = find(mod(0:length(images)-1, conf.numTrain+conf.numTest) < conf.numTrain) ;
-selTrain = 1: length(images)%conf.numTrain+conf.numTest
+selTrain = 1: length(images);%conf.numTrain+conf.numTest
 
 %length(cvInd.test(i))
 length(images)
@@ -268,11 +283,17 @@ end
 scores = model.w' * psix + model.b' * ones(1,size(psix,2)) ;
 [drop, imageEstClass] = max(scores, [], 1) ; 
 
+save('cvimageEstClass.mat','imageEstClass');
+
+%save('cvStuff.mat','selTrain','imageClass','images','psix');
+save('cvStuff.mat')
+
 % Compute the confusion matrix
 idx = sub2ind([length(classes), length(classes)], ...
-              imageClass(selTest), imageEstClass(selTest)) ;
+              imageClass(selTest), imageEstClass(selTest)) 
+
 confus = zeros(length(classes)) ;
-confus = vl_binsum(confus, ones(size(idx)), idx) ;
+confus = vl_binsum(confus, ones(size(idx)), idx) 
 
 % Plots
 figure(1) ; clf;
@@ -281,13 +302,22 @@ imagesc(scores(:,[selTrain selTest])) ; title('Scores') ;
 set(gca, 'ytick', 1:length(classes), 'yticklabel', classes) ;
 subplot(1,2,2) ;
 imagesc(confus) ;
+
 title(sprintf('Confusion matrix (%.2f %% accuracy)', ...
-              100 * mean(diag(confus)/conf.numTest) )) ;
+              100 * mean(diag(confus)/ cvNumTest ))) ;
+          
+          
+acc(i) = 100 * mean(diag(confus)/cvNumTest);                  
+wtf = (diag(confus))
 print('-depsc2', [conf.resultPath '.ps']) ;
 save([strcat(conf.resultPath,int2str(i), '.mat')], 'confus', 'conf') ;
 
 
 end%(cv stuff)for i = 1:4 
+
+acc
+mean(acc)
+save('cvAcc.mat','acc');
 
 % -------------------------------------------------------------------------
 function im = standarizeImage(im)
@@ -337,15 +367,18 @@ function [className, score] = classify(model, im)
 % -------------------------------------------------------------------------
 
 hist = getImageDescriptor(model, im) ;
-psix = vl_homkermap(hist, 1, 'kchi2') ;%MODIFIED???? removed arg 3 = .7
+psix = vl_homkermap(hist, 1, 'kchi2', 'gamma', .5) ;
+%psix = vl_homkermap(hist, 1, 'kchi2') ;%MODIFIED???? removed arg 3 = .7
 %psix = vl_homkermap(hist, 1, .7, 'kchi2') ;
 %psix = vl_homkermap(hist, 1, 'kchi2','gamma',.7) ;
 %psix = vl_homkermap(hist, 1, 'KJS', 'gamma', .5) ; %changed!
 
 scores = model.w' * psix + model.b'; 
 %sortIndex has the sorted class outputs
-[sortedValues,sortIndex] = sort(scores(:),'descend');
+%[sortedValues,sortIndex] = sort(scores(:),'descend');
 
-[score, best] = max(scores) ;
+%[score, best] = max(scores) ;
+[score, best] = max(scores, [], 1) ; 
+
 className = model.classes{best} ;
 %className = model.classes{sortIndex(1:3)} ;
