@@ -20,11 +20,11 @@
 %x = rgb2gray(x);
 %imwrite(x,sting,'jpg');
 
-
-sting = 'images/logic/formula/formula1_crop.jpg';
-
+function [centeredBox] = extract(I)
+%sting = 'images/logic/formula/formula1_crop.jpg';
+%sting = 'demo/demo1.jpg';
 %sting = 'images/numbers/eight_1.jpg';   
-Character = segmenter2(sting);
+%Character = segmenter2(sting);
 
 %DO SOME NMS HERE
 %Character = nonMaxSupp(Character);
@@ -76,12 +76,12 @@ for l = 1:numBoxes
         continue
     end
     I = Im(b3:b4,b1:b2); %extract pixels contained in bounding box
-    subplot(1,2,1)
-    colormap('gray');
-    imagesc(I);
-    str = sprintf('box: %d pre-padding',l);
-    title(str);
-    %I = imcrop(Im)
+    %subplot(1,2,1)
+    %colormap('gray');
+    %imagesc(I);
+    %str = sprintf('box: %d pre-padding',l);
+    %title(str);
+ 
     if(size(I,1) > a & size(I,2) > b)
         I2 = I(1:a,1:b);
     elseif(size(I,1) > a)
@@ -92,14 +92,17 @@ for l = 1:numBoxes
          I2 = impad(t,[a b]);
     else
         I2 = impad(I,[a b]);
-    end
-    subplot(1,2,2)
-    colormap('gray');
-    imagesc(I2);
-    str = sprintf('box: %d post-padding',l);
-    title(str);
-    pause;
+    end %I2 now contains padded image
     
+    
+    %subplot(1,2,2)
+    %colormap('gray');
+    %imagesc(I2);
+    %str = sprintf('box: %d post-padding',l);
+    %title(str);
+    %pause;
+    
+    centeredBox(l,:) = I2(:);
     
 
 
@@ -107,4 +110,6 @@ for l = 1:numBoxes
     %output_name = [ num2str(l) '.jpg'];
     %imwrite(I2, colormap('gray'), output_name ,'JPEG'); %change this to output to a subfolder
 end
-bbpos = bbpos(Character)
+
+pos = bbpos(Character) %this output needs to get used
+end

@@ -32,6 +32,7 @@ nVarargs = length(varargin);
 if nVarargs == 0
     %Read this image if no input provided 
     Im = imread('images/dataset_proc/oren_9.jpg');
+    %Im = imread('equation1.jpg');
 else
    %if arg provided, read first input  
 %   Im = imread(str(varargin(1)));
@@ -45,8 +46,9 @@ Im_saved = Im; %added by me
 
 
 %Make binary
-Im(Im < 128) = 1;
-Im(Im >= 128) = 0;
+Im(Im < 190) = 1;  %changed the threshold value from 128 to 190
+Im(Im >= 190) = 0;
+
 
 %Segment out all connected regions
 ImL = bwlabel(Im); 
@@ -87,7 +89,7 @@ for i=1:nrValidDetections
     %text(Character(i).BoundingBox(1), Character(i).BoundingBox(2), str);
 
 end %end for i=1:nrValidDetections
-
+pause
 
 
 end%end function
