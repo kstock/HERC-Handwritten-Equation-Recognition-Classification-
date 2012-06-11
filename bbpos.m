@@ -53,7 +53,7 @@ function [bbpos] = bbpos(Character)
         posinf(i,8,2) = y;
         
         posinf(i,9,1) = x+floor(w/2); %center
-        posinf(i,9,2) = y+floor(w/2);
+        posinf(i,9,2) = y+floor(h/2);
         if(i > 1)
             c = [posinf(i-1,9,1) posinf(i-1,9,2)]; %center of bb i-1
             c2 = [posinf(i,9,1) posinf(i,9,2)]; %center of bb i-1
