@@ -12,7 +12,7 @@ function [ret] = preprocess(directory)
 
 colormap(gray)
 
-files = dir( strcat(directory,'*.jpeg'));
+files = dir( strcat(directory,'*.jpg'));
 
 for i = 1:length(files)
     
@@ -29,6 +29,7 @@ for i = 1:length(files)
     
     
     test(test >= 230) = 255;
+    test(test < 230) = 255;
     
     imwrite(test,strcat(directory,name),'jpg');
     %imagesc(test)
