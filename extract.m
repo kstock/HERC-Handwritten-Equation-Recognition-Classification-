@@ -20,17 +20,17 @@
 %x = rgb2gray(x);
 %imwrite(x,sting,'jpg');
 
-function [centeredBox] = extract(I)
+function [centeredBox] = extract(string)
 %sting = 'images/logic/formula/formula1_crop.jpg';
 %sting = 'demo/demo1.jpg';
 %sting = 'images/numbers/eight_1.jpg';   
-%Character = segmenter2(sting);
+Character = segmenter2(string);
 
 %DO SOME NMS HERE
 %Character = nonMaxSupp(Character);
 %END NMS STUFF
 numBoxes = size(Character,2);
-Im = imread(sting);
+Im = imread(string);
 
 %read in a sample data image to get the correct output size
 s = imread('images/data/1_0.jpg');
