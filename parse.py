@@ -35,36 +35,43 @@ from scipy import io
 #25 8
 #26 9
 #-1 OTHER ERROR!!!!
-code = [
-        ' \\forall ',
-        ' \\exists',
-        ' \\neg',
-        ' \\left(',
-        ' \\right)',
-        ' x',
-        ' y',
-        ' z',
-        ' \\neq',
-        ' \\in',
-        ' \\wedge',
-        ' \\vee',
-        ' \\rightarrow',
-        ' \\leftrightarrow',
-        ' \\subset',
-        ' F',
-        ' R',
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9'
-       ]
-
+  code = [
+          ' \\forall ',
+          ' \\exists',
+          ' \\neg',
+          ' \\left(',
+          ' \\right)',
+          ' x',
+          ' y',
+          ' z',
+          ' \\neq',
+          ' \\in',
+          ' \\wedge',
+          ' \\vee',
+          ' \\rightarrow',
+          ' \\leftrightarrow',
+          ' \\subset',
+          ' F',
+          ' R',
+          '0',
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '^{',
+          '}',
+          '_{',
+          '\\sum',
+          '\\int',
+          '+',
+          '-',
+          '*'
+         ]
 
 #open for appending, creates if doesn't already exist
 f = open('test.tex', 'a+')

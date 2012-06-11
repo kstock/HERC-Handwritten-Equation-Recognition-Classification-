@@ -1,3 +1,13 @@
+# parse2.parse2('19 19 19 19',[8, 7, 6, 5])
+#0 Top 
+#1 Top Left 
+#2 Left 
+#3 Bottom Left 
+#4 bottom
+#5 bottom right
+#6 right
+#7 top right
+#8 start?
 
 def addSuper(s,pos):
   tokens = s.split()
@@ -8,17 +18,25 @@ def addSuper(s,pos):
   i = 0
   while i < lastTok :
     
-    if pos[i] == 7:
-      tokens.insert(i+offset,'3')
+    if pos[i] == 7:#top right
+      tokens.insert(i+offset,'27')
       offset += 1
       unbalanced += 1
-    elif pos[i] == 5:
-      tokens.insert(i+offset,'4')
+
+    elif pos[i] == 4:#bottom
+      if pos[i-1] == 7 : 
+      tokens.insert(i+offset,'29')
+      offset += 1
+      unbalanced += 1
+
+
+    elif pos[i] == 5:#bottom right
+      tokens.insert(i+offset,'28')
       offset += 1
       unbalanced -= 1
 
     elif i + 1 > lastTok and unbalanced > 0:
-      tokens.insert(i+offset,'4')
+      tokens.insert(i+offset,'28')
 
     i+=1
     
@@ -47,11 +65,6 @@ def parse2(s,pos):
         bar.append(tup)
         #print bar
 
-# -----------------------------------------------------------------------------
-# calc.py
-#
-# A simple calculator with variables -- all in one file.
-# -----------------------------------------------------------------------------
 
 
   tokens = (
@@ -90,14 +103,24 @@ def parse2(s,pos):
 #24 7
 #25 8
 #26 9
+#27 ^{
+#28 }
+#29 _{
+#30 \sum
+#31 \int
+#32 +
+#33 - 
+#34 *
+
+
 
   t_PLUS    = r'\+'
   t_MINUS   = r'-'
   t_TIMES   = r'\*'
   t_DIVIDE  = r'/'
   t_EQUALS  = r'='
-  t_LPAREN  = r'3'
-  t_RPAREN  = r'4'
+  t_LPAREN  = r'3| 27 | 29 '
+  t_RPAREN  = r'4| 28 '
   t_NEG = r'2'
   t_BINOP = r' 12 | 13 | 14 | 10 | 11 | 9 '
   t_QUANT = r'[01]'
@@ -131,9 +154,16 @@ def parse2(s,pos):
           '6',
           '7',
           '8',
-          '9'
+          '9',
+          '^{',
+          '}',
+          '_{',
+          '\\sum',
+          '\\int',
+          '+',
+          '-',
+          '*'
          ]
-
 
 
 #def t_NUMBER(t):
@@ -321,4 +351,20 @@ def parse2(s,pos):
   yay = yacc.parse(s,tracking=True)
   traver(yay)
   print ''.join(bar)
+
+  
+#open for appending, creates if doesn't already exist
+  f = open('test.tex', 'w+')
+
+  startDoc = '\\documentclass[a4paper,12pt]{article} \n \\begin{document}\n $'
+  endDoc = '$\n \\end{document}'
+
+  f.write(startDoc)
+  
+
+  f.write(''.join(bar))
+
+  f.write(endDoc)
+  
+  f.close()
 

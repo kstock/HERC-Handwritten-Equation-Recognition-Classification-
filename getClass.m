@@ -125,7 +125,19 @@ switch exp
         
     case 'nine'
         class = 26;
-
+    case 'sigma'
+        class = 26;
+    
+    case 'nine'
+        class = 30;
+    case 'integral'
+        class = 31;
+    case 'plus'
+        class = 32;
+    case 'minus'
+        class = 33;
+    case 'star'
+        class = 34;
     otherwise 
         class = -1;%error checking
         

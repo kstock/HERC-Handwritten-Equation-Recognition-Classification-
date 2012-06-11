@@ -11,7 +11,9 @@ for i = 1:numPic
     %temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
     label = model.classify(model, reshape(im(i,:),[159 157]));
     label
-    parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
+    getClass(label);
+    parse(i) = getClass(label)%imread( strcat(direct, int2str(i),'.jpg' ) );
+    
 end
 
 end
