@@ -20,7 +20,7 @@
 %x = rgb2gray(x);
 %imwrite(x,sting,'jpg');
 
-function [centeredBox] = extract(string)
+function [centeredBox pos] = extract(string)
 %sting = 'images/logic/formula/formula1_crop.jpg';
 %sting = 'demo/demo1.jpg';
 %sting = 'images/numbers/eight_1.jpg';   

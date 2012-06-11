@@ -1,5 +1,23 @@
+function [parse,pos] = proto(str) 
+
+load('images/data/cvbaseline-model.mat') ; % change to the model path
+
+[im,pos] = extract(str);
+
+[numPic,n] = size(im);
+parse = zeros(numPic,1);
+
+for i = 1:numPic
+    %temp = imread( strcat(dir2, int2str(i),'.jpg' ) );
+    label = model.classify(model, reshape(im(i,:),[159 157]));
+    label
+    parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
+end
+
+end
 
 
+%{
 %this is my messy playground, it will be cleaned up in a few days
 
 load('images/data/cvbaseline-model.mat') ; % change to the model path
@@ -7,12 +25,12 @@ load('images/data/cvbaseline-model.mat') ; % change to the model path
 
 
 %direct = 'images/extracted/formula1Filtered/';
-direct = 'images/fakeFormula/funct4/';
+direct = 'images/fakeFormula/funct2/';
 %direct = 'images/data/holdout/five/';
 
-pics = dir(direct);
-pics = pics(4:end);
-numPic = length(dir(direct))-3;
+pics = dir(strcat(direct,'*jpg'));
+%pics = pics(4:end);
+numPic = length(pics);%length(dir(direct))-3;
 
 
 parse = zeros(numPic,1);
@@ -25,12 +43,11 @@ for i = 1:numPic
     parse(i) = getClass(label);%imread( strcat(direct, int2str(i),'.jpg' ) );
 end
 
+%}
 
-
-%{
 % : (
 
-
+%{
 
 %this is my messy playground, it will be cleaned up in a few days
 
@@ -48,7 +65,7 @@ direct = 'images/data/holdout/';
 %direct = 'images/data/herc-data/';
 
 
-numberOfLabels = 27;
+numberOfLabels = 32;
 
 numSamplesEach = 20;
 
@@ -108,6 +125,7 @@ for i = 1:numPic
        correctLabel = correctLabel + 1
        count = 1;
     end
+    
    %{ 
     if ~ strcmp(label,'rightParen')
         count = count + 1;
@@ -119,7 +137,7 @@ end
 
 correct
 correct/numPic
-save('parse.mat','parse');
+%save('parse.mat','parse');
 
 %}
 
