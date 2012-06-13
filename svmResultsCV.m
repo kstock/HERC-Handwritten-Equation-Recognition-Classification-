@@ -154,13 +154,14 @@ end
 cvInd = cvpartition(images,'kfold',cvFoldK);
 imageClass = cat(2, imageClass{:}) ;
 
-save('cvind2.mat','cvInd');
+%save('cvind2.mat','cvInd');
 
 
 
 for i = 1: cvFoldK
     
 conf.prefix = strcat(conf.prefix,int2str(i));
+conf.modelPath = fullfile(conf.dataDir, [conf.prefix '-model.mat']) ;
 
 %selTrain = find(mod(0:length(images)-1, conf.numTrain+conf.numTest) < conf.numTrain) ;
 selTrain = 1: length(images);%conf.numTrain+conf.numTest
