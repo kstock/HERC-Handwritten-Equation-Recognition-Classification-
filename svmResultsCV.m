@@ -109,30 +109,6 @@ cvNumTest = ((conf.numTrain + conf.numTest)*3)/4;
 
 
 % --------------------------------------------------------------------
-%                                            Download Caltech-101 data
-% --------------------------------------------------------------------
-%{
-if ~exist(conf.calDir, 'dir') || ...
-   (~exist(fullfile(conf.calDir, 'airplanes'),'dir') && ...
-    ~exist(fullfile(conf.calDir, '101_ObjectCategories', 'airplanes')))
-  if ~conf.autoDownloadData
-    error(...
-      ['Caltech-101 data not found. ' ...
-       'Set conf.autoDownloadData=true to download the required data.']) ;
-  end
-
-  vl_xmkdir(conf.calDir) ;
-  calUrl = ['http://www.vision.caltech.edu/Image_Datasets/' ...
-    'Caltech101/101_ObjectCategories.tar.gz'] ;
-  fprintf('Downloading Caltech-101 data to ''%s''. This will take a while.', conf.calDir) ;
-  untar(calUrl, conf.calDir) ;
-end
-
-if ~exist(fullfile(conf.calDir, 'airplanes'),'dir')
-  conf.calDir = fullfile(conf.calDir, '101_ObjectCategories') ;
-end
-%}
-% --------------------------------------------------------------------
 %                                                           Setup data
 % --------------------------------------------------------------------
 classes = dir(conf.calDir) ;
@@ -162,6 +138,9 @@ for i = 1: cvFoldK
     
 conf.prefix = strcat(conf.prefix,int2str(i));
 conf.modelPath = fullfile(conf.dataDir, [conf.prefix '-model.mat']) ;
+conf.vocabPath = fullfile(conf.dataDir, [conf.prefix '-vocab.mat']) ;
+conf.histPath = fullfile(conf.dataDir, [conf.prefix '-hists.mat']) ;
+
 
 %selTrain = find(mod(0:length(images)-1, conf.numTrain+conf.numTest) < conf.numTrain) ;
 selTrain = 1: length(images);%conf.numTrain+conf.numTest
